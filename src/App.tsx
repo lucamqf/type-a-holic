@@ -1,5 +1,9 @@
 function App() {
-  return <h1>Hello World</h1>
+  return (
+    <div className="flex">
+      <h1>Hello World</h1>
+    </div>
+  )
 }
 
 export default App
