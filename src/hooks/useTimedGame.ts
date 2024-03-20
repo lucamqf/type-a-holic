@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { MINUTE_IN_SECONDS } from "@/constants/time";
 
 interface IUseGame {
-  minutes?: 1 | 3 | 5;
+  minutes?: number;
   onReset?(): void;
   onFinished?(): void;
 }
@@ -65,6 +65,10 @@ export function useTimedGame({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
+
+  useEffect(() => {
+    setTime(rawTime);
+  }, [rawTime]);
 
   return {
     startGame,
