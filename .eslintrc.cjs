@@ -11,6 +11,9 @@ module.exports = {
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   plugins: ["react", "react-refresh", "prettier"],
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
+  },
   rules: {
     "react-refresh/only-export-components": [
       "warn",
@@ -43,6 +46,11 @@ module.exports = {
           "match": true
         }
       }
-    ]
+    ],
   },
+  settings: {
+    react: {
+      version: "detect",
+    }
+  }
 };

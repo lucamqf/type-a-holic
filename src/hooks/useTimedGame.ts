@@ -1,24 +1,28 @@
-import { useEffect, useState, useRef } from "react";
-import { MINUTE_IN_SECONDS } from "@/constants/time";
+import { useEffect, useRef, useState } from "react";
 
 interface IUseGame {
-  onReset(): void;
-  onFinished(): void;
+  seconds?: number;
+  onReset?(): void;
+  onFinished?(): void;
 }
 
-export function useGame({ onReset, onFinished }: IUseGame) {
-  const [time, setTime] = useState(MINUTE_IN_SECONDS);
+export function useTimedGame({
+  seconds = 60,
+  onReset,
+  onFinished,
+}: IUseGame = {}) {
+  const [time, setTime] = useState(seconds);
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   function restartGame() {
     endGame();
-    onReset();
+    onReset && onReset();
   }
 
   function finishGame() {
     endGame();
-    onFinished();
+    onFinished && onFinished();
   }
 
   const startGame = () => {
@@ -39,12 +43,16 @@ export function useGame({ onReset, onFinished }: IUseGame) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    setTime(MINUTE_IN_SECONDS);
+    setTime(seconds);
     setHasGameStarted(false);
   }
 
   useEffect(() => {
-    if (!timeoutRef.current && time === MINUTE_IN_SECONDS) return;
+    setTime(seconds);
+  }, [seconds]);
+
+  useEffect(() => {
+    if (!timeoutRef.current && time === seconds) return;
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
