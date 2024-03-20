@@ -2,7 +2,7 @@ import { formatTime } from "@/lib/formatTime";
 import { ResetIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEventListener } from "@/hooks/useEventListenet";
+import { useEventListener } from "@/hooks/useEventListener";
 import { ChangeEvent, useRef, useState } from "react";
 
 interface IWordFormProps {

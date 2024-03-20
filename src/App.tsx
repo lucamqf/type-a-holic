@@ -1,113 +1,136 @@
 import { useState } from "react";
-import { Loading } from "./components/Loading";
-import { WordForm } from "./components/WordForm";
-import { WordsCard } from "./components/WordsCard";
-import { useGame } from "./hooks/useGame";
-import { useResult } from "./hooks/useResult";
+import { useEventListener } from "./hooks/useEventListener";
 import { useWords } from "./hooks/useWords";
-import { wait } from "./lib/wait";
+import { cn } from "./lib/utils";
 
 function App() {
-  const {
-    words,
-    isLastWord,
-    currentWordPosition,
-    currentWord,
-    goToNextWord,
-    refreshWords,
-    goToFirstWord,
-  } = useWords();
-  const { time, hasGameStarted, startGame, restartGame } = useGame({
-    onFinished: handleFinishGame,
-    onReset: handleRestart,
-  });
-  const { addResultCheckpoint, precision, totalWords } = useResult();
+  const { words, refreshWords } = useWords();
 
-  const [inScreenCorrectWords, setInScreenCorrectWords] = useState<string[]>(
+  const [activeWord, setActiveWord] = useState(0);
+  const [activeLetterInWord, setActiveLetterInWord] = useState(0);
+  const [incorrectLetters, setIncorrectLetters] = useState<[number, number][]>(
     []
   );
-  const [inScreenWrongWords, setInScreenWrongWords] = useState<string[]>([]);
-  const [isGameFinished, setIsGameFinished] = useState(false);
-  const [isResultsLoading, setIsResultsLoading] = useState(false);
 
-  function submitWord(word: string) {
-    const cleanedTypedWord = word.trim();
+  useEventListener("keypress", handleKeyPress);
+  useEventListener("keydown", handleKeyDown);
 
-    if (currentWord === cleanedTypedWord) {
-      addResultCheckpoint(
-        inScreenCorrectWords.length + 1,
-        inScreenWrongWords.length
-      );
-      setInScreenCorrectWords((prev) => [...prev, currentWord]);
-    } else {
-      addResultCheckpoint(
-        inScreenCorrectWords.length,
-        inScreenWrongWords.length + 1
-      );
-      setInScreenWrongWords((prev) => [...prev, currentWord]);
+  function handleKeyPress(event: KeyboardEvent) {
+    const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
+
+    if (event.key === " " && shouldGoToNextWord) {
+      goToNextWord();
+      return;
     }
 
-    if (isLastWord) {
-      goToFirstWord();
+    handleCorrectLetter(event.key);
+  }
 
-      setInScreenCorrectWords([]);
-      setInScreenWrongWords([]);
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === "Backspace") {
+      handleBackspace();
+    }
+  }
 
-      refreshWords();
+  function handleBackspace() {
+    const isFirstWord = activeWord === 0;
+    const isFirstLetter = activeLetterInWord === 0;
+
+    if (isFirstWord && isFirstLetter) return;
+
+    const newWordIndex = isFirstLetter ? activeWord - 1 : activeWord;
+    const newLetterIndex = isFirstLetter
+      ? words[newWordIndex].length - 1
+      : activeLetterInWord - 1;
+
+    const incorrectLettersCopy = [...incorrectLetters];
+
+    const shouldRemoveIncorrectLetter = incorrectLettersCopy.find(
+      ([wordIndex, letterIndex]) =>
+        wordIndex === newWordIndex && letterIndex === newLetterIndex
+    );
+
+    if (shouldRemoveIncorrectLetter) {
+      incorrectLettersCopy.pop();
+      setIncorrectLetters(incorrectLettersCopy);
+    }
+
+    if (isFirstLetter) {
+      setActiveWord((prev) => prev - 1);
+      setActiveLetterInWord(words[activeWord - 1].length - 1);
 
       return;
     }
 
-    goToNextWord();
+    setActiveLetterInWord((prev) => prev - 1);
   }
 
-  async function handleRestart() {
-    setIsResultsLoading(true);
-    await wait(1000);
-    setIsResultsLoading(false);
+  function handleCorrectLetter(letter: string) {
+    const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
 
-    refreshWords();
+    if (shouldGoToNextWord) return;
+
+    const isIncorrect = words[activeWord][activeLetterInWord] !== letter;
+
+    if (isIncorrect) {
+      setIncorrectLetters((prev) => [
+        ...prev,
+        [activeWord, activeLetterInWord],
+      ]);
+    }
+
+    setActiveLetterInWord((prev) => prev + 1);
   }
 
-  async function handleFinishGame() {
-    setIsResultsLoading(true);
+  function goToNextWord() {
+    setActiveLetterInWord(0);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const isLastWord = activeWord === words.length - 1;
 
-    setIsResultsLoading(false);
+    if (isLastWord) {
+      refreshWords();
+      setActiveWord(0);
+      return;
+    }
 
-    setIsGameFinished(true);
+    setActiveWord((prev) => prev + 1);
   }
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center gap-6 bg-slate-50">
-      <div className="flex w-full max-w-[600px] flex-col gap-6">
-        {isResultsLoading ? (
-          <Loading />
-        ) : (
-          <>
-            {isGameFinished && (
-              <span>
-                Total: {totalWords} Precision: {precision}
-              </span>
-            )}
+    <div className="flex h-screen w-screen flex-col items-center justify-center bg-neutral-900">
+      <div className="flex w-full max-w-[1200px] flex-wrap gap-x-2 gap-y-6 px-10">
+        {words.map((word, wordIndex) => {
+          const letters = word.split("");
 
-            <WordsCard
-              correctWords={inScreenCorrectWords}
-              currentWord={currentWordPosition}
-              words={words}
-              wrongWords={inScreenWrongWords}
-            />
+          const isWordActive = activeWord === wordIndex;
+          const isPastWord = activeWord > wordIndex;
 
-            <WordForm
-              hasGameStarted={hasGameStarted}
-              time={time}
-              onReset={restartGame}
-              onStartGame={startGame}
-              onSubmitWord={submitWord}
-            />
-          </>
-        )}
+          return (
+            <div key={word + wordIndex}>
+              {letters.map((letter, letterIndex) => {
+                const isPastLetter =
+                  activeLetterInWord > letterIndex && isWordActive;
+                const isIncorrect = incorrectLetters.some(
+                  (letter) =>
+                    letter[0] === wordIndex && letter[1] === letterIndex
+                );
+
+                return (
+                  <span
+                    key={letter + letterIndex}
+                    className={cn([
+                      "font-body text-3xl font-medium text-gray-600",
+                      isPastLetter || isPastWord ? "text-green-600" : "",
+                      isIncorrect ? "text-red-500" : "",
+                    ])}
+                  >
+                    {letter}
+                  </span>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

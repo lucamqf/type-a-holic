@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 
 import allWords from "@/data/words.json";
 
-export function useWords() {
+export function useWords({
+  amountOfWords = 40,
+}: { amountOfWords?: number } = {}) {
   const [words, setWords] = useState<string[]>(generateRandomWords());
   const [currentWordPosition, setCurrentWordPosition] = useState(0);
 
   function generateRandomWords() {
-    const amountOfWords = 20;
-
     const randomWords: string[] = [];
 
     while (randomWords.length < amountOfWords) {
