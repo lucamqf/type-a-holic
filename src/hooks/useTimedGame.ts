@@ -1,20 +1,17 @@
-import { useEffect, useState, useRef } from "react";
-import { MINUTE_IN_SECONDS } from "@/constants/time";
+import { useEffect, useRef, useState } from "react";
 
 interface IUseGame {
-  minutes?: number;
+  seconds?: number;
   onReset?(): void;
   onFinished?(): void;
 }
 
 export function useTimedGame({
-  minutes = 1,
+  seconds = 60,
   onReset,
   onFinished,
 }: IUseGame = {}) {
-  const rawTime = MINUTE_IN_SECONDS * minutes;
-
-  const [time, setTime] = useState(rawTime);
+  const [time, setTime] = useState(seconds);
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -46,12 +43,16 @@ export function useTimedGame({
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    setTime(rawTime);
+    setTime(seconds);
     setHasGameStarted(false);
   }
 
   useEffect(() => {
-    if (!timeoutRef.current && time === rawTime) return;
+    setTime(seconds);
+  }, [seconds]);
+
+  useEffect(() => {
+    if (!timeoutRef.current && time === seconds) return;
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -65,10 +66,6 @@ export function useTimedGame({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
-
-  useEffect(() => {
-    setTime(rawTime);
-  }, [rawTime]);
 
   return {
     startGame,

@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import allWords from "@/data/words.json";
 
-export function useWords({
-  amountOfWords = 40,
-}: { amountOfWords?: number } = {}) {
+interface IUseWords {
+  amountOfWords?: number;
+}
+
+export function useWords({ amountOfWords = 40 }: IUseWords = {}) {
   const [words, setWords] = useState<string[]>(generateRandomWords());
-  const [currentWordPosition, setCurrentWordPosition] = useState(0);
 
   function generateRandomWords() {
     const randomWords: string[] = [];
@@ -24,36 +25,10 @@ export function useWords({
 
   function refreshWords() {
     setWords(generateRandomWords());
-    goToFirstWord();
   }
-
-  function goToFirstWord() {
-    setCurrentWordPosition(0);
-  }
-
-  function goToNextWord() {
-    setCurrentWordPosition((prev) => prev + 1);
-  }
-
-  useEffect(() => {
-    const shouldGenerateMoreWords = currentWordPosition + 1 > words.length;
-
-    if (shouldGenerateMoreWords) {
-      refreshWords();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [words, currentWordPosition]);
-
-  const isLastWord = currentWordPosition + 1 === words.length;
-  const currentWord = words[currentWordPosition];
 
   return {
     words,
-    currentWordPosition,
-    goToNextWord,
-    currentWord,
     refreshWords,
-    goToFirstWord,
-    isLastWord,
   };
 }

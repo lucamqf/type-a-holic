@@ -1,3 +1,4 @@
+import { MINUTE_IN_SECONDS } from "@/constants/time";
 import { RotateCcw } from "lucide-react";
 import { Dialog, DialogContent } from "./ui/dialog";
 import { IconButton } from "./ui/iconButton";
@@ -23,7 +24,9 @@ export function Result({
   const precisionPercentage = Math.floor(
     (correctCharacters * 100) / totalCharacters
   );
-  const wordsPerMinute = Math.floor(wordsCount / timePassed);
+  const wordsPerMinute = Math.floor(
+    wordsCount / (timePassed / MINUTE_IN_SECONDS)
+  );
 
   return (
     <Dialog defaultOpen onOpenChange={onRestart}>
@@ -31,9 +34,14 @@ export function Result({
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <ResultItem.Group>
-              <ResultItem.Item title="PPM" value={wordsPerMinute} />
+              <ResultItem.Item
+                title="PPM"
+                tooltip="Palavras por minuto"
+                value={wordsPerMinute}
+              />
               <ResultItem.Item
                 title="Precisão"
+                tooltip="Porcentagem de acertos em relação ao total de caracteres"
                 value={
                   Number.isNaN(precisionPercentage)
                     ? "00%"
@@ -45,6 +53,7 @@ export function Result({
             <ResultItem.Item
               hierarchy="secondary"
               title="Caracteres"
+              tooltip="Total de caracteres digitados / Total de caracteres corretos / Total de caracteres incorretos"
               value={`${totalCharacters}/${correctCharacters}/${incorrectCharacters}`}
             />
           </div>
