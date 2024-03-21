@@ -38,11 +38,15 @@ export function useTimedGame({
     }
   }
 
-  function endGame() {
+  function cleanTimer() {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
+  }
+
+  function endGame() {
+    cleanTimer();
     setTime(seconds);
     setHasGameStarted(false);
   }
@@ -71,6 +75,7 @@ export function useTimedGame({
 
   return {
     startGame,
+    cleanTimer,
     restartGame,
     time,
     hasGameStarted,

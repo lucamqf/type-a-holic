@@ -33,7 +33,7 @@ export function Timed() {
     onKeyPress: handleStartGame,
     onLastWord: handleRefresh,
   });
-  const { time, startGame, hasGameStarted } = useTimedGame({
+  const { time, startGame, restartGame, hasGameStarted } = useTimedGame({
     seconds: selectedTime,
     onReset: handleCleanGame,
     onFinished: () => setIsGameFinished(true),
@@ -58,6 +58,7 @@ export function Timed() {
   function handleRestartGame() {
     handleCleanGame();
     refreshWords();
+    restartGame();
   }
 
   return (
