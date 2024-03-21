@@ -5,6 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./tooltip";
+import { HTMLAttributes } from "react";
 
 function Result() {}
 
@@ -14,10 +15,11 @@ function ResultGroup({ children }: { children: React.ReactNode }) {
   );
 }
 
-interface IResultItemProps {
+interface IResultItemProps extends HTMLAttributes<HTMLParagraphElement> {
   title: string;
   value: string | number;
   tooltip?: string;
+  color?: string;
   hierarchy?: "primary" | "secondary" | "tertiary";
 }
 
@@ -26,6 +28,7 @@ function ResultItem({
   tooltip,
   value,
   hierarchy = "primary",
+  ...attributes
 }: IResultItemProps) {
   const titleSize = {
     primary: "text-xl",
@@ -47,8 +50,15 @@ function ResultItem({
           >
             {title}
           </p>
-          <TooltipTrigger>
-            <p className={cn(["text-green-600", valueSize[hierarchy]])}>
+          <TooltipTrigger className="cursor-default">
+            <p
+              {...attributes}
+              className={cn([
+                "text-green-600",
+                valueSize[hierarchy],
+                attributes.className,
+              ])}
+            >
               {value}
             </p>
           </TooltipTrigger>

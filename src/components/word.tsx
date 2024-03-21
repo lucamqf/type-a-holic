@@ -20,10 +20,6 @@ export function Word({
   shouldBeHighlighted,
 }: IWordProps) {
   function getLetterStatus(isPastLetter: boolean, isIncorrect: boolean) {
-    if (isInStandBy) {
-      return "standBy";
-    }
-
     if (isIncorrect) {
       return "incorrect";
     }
@@ -32,6 +28,9 @@ export function Word({
       return "highlighted";
     }
 
+    if (isInStandBy) {
+      return "standBy";
+    }
     return "";
   }
 

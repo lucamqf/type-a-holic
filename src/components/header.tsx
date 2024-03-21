@@ -1,5 +1,5 @@
 import { enGameType, useGame } from "@/contexts/gameContext";
-import { Clock } from "lucide-react";
+import { Clock, Infinity } from "lucide-react";
 import { SelectButton } from "./ui/selectButton";
 import { Separator } from "./ui/separator";
 import {
@@ -19,7 +19,7 @@ export function Header() {
   } = useGame();
 
   return (
-    <div className="mb-20 h-[30px] w-full max-w-[1200px] px-10 text-neutral-300">
+    <div className="h-[30px] w-full max-w-[1200px] px-10 text-neutral-300">
       <div className="flex h-full gap-x-4 rounded-xl bg-neutral-950 bg-opacity-30 px-4 py-1">
         <div className="flex items-center gap-2">
           <SelectButton
@@ -27,6 +27,14 @@ export function Header() {
             isSelected={gameType === enGameType.TIMED}
             label="Tempo"
             onSelect={() => setGameType(enGameType.TIMED)}
+          />
+
+          <SelectButton
+            customIconProps={{ size: 18 }}
+            icon={Infinity}
+            isSelected={gameType === enGameType.INFINITE}
+            label="Infinito"
+            onSelect={() => setGameType(enGameType.INFINITE)}
           />
 
           <Separator

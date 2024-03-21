@@ -49,6 +49,8 @@ export function useTimedGame({
 
   useEffect(() => {
     setTime(seconds);
+    restartGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seconds]);
 
   useEffect(() => {
