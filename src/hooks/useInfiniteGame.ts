@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useToggle } from "./useToggle";
 
 interface IUseInfiniteGame {
   onReset?(): void;
@@ -7,8 +8,9 @@ interface IUseInfiniteGame {
 export function useInfiniteGame({ onReset }: IUseInfiniteGame = {}) {
   const [time, setTime] = useState(0);
   const [hasGameStarted, setHasGameStarted] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [isPaused, togglePause] = useToggle(false);
 
   function restartGame() {
     endGame();
@@ -35,14 +37,6 @@ export function useInfiniteGame({ onReset }: IUseInfiniteGame = {}) {
     timeoutRef.current = setTimeout(() => {
       setTime((prev) => prev + 1);
     }, 1000);
-  }
-
-  function resumeGame() {
-    setIsPaused(false);
-  }
-
-  function pauseGame() {
-    setIsPaused(true);
   }
 
   function endGame() {
@@ -76,8 +70,7 @@ export function useInfiniteGame({ onReset }: IUseInfiniteGame = {}) {
   return {
     startGame,
     isPaused,
-    resumeGame,
-    pauseGame,
+    togglePause,
     restartGame,
     cleanTimer,
     time,

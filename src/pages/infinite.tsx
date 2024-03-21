@@ -21,8 +21,7 @@ export function Infinite() {
     restartGame,
     isPaused,
     cleanTimer,
-    pauseGame,
-    resumeGame,
+    togglePause,
   } = useInfiniteGame();
   const {
     activeLetter,
@@ -96,7 +95,7 @@ export function Infinite() {
           <IconButton onClick={handleStopGame}>
             <CircleStop className="text-neutral-600 group-hover:text-neutral-400" />
           </IconButton>
-          <IconButton onClick={() => (isPaused ? resumeGame() : pauseGame())}>
+          <IconButton onClick={() => togglePause()}>
             {isPaused ? (
               <Play className="text-neutral-600 group-hover:text-neutral-400" />
             ) : (
