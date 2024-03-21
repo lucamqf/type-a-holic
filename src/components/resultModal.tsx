@@ -4,7 +4,7 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import { IconButton } from "./ui/iconButton";
 import { ResultItem } from "./ui/resultItem";
 
-interface IResultProps {
+interface IResultModalProps {
   wordsCount: number;
   timePassed: number;
   totalCharacters: number;
@@ -13,14 +13,14 @@ interface IResultProps {
   onRestart: () => void;
 }
 
-export function Result({
+export function ResultModal({
   wordsCount,
   timePassed,
   correctCharacters,
   incorrectCharacters,
   totalCharacters,
   onRestart,
-}: IResultProps) {
+}: IResultModalProps) {
   const precisionPercentage = Math.floor(
     (correctCharacters * 100) / totalCharacters
   );

@@ -6,13 +6,14 @@ import { useWords } from "@/hooks/useWords";
 
 import { formatTime } from "@/utils/formatTime";
 
-import { Result } from "@/components/result";
+import { ResultModal } from "@/components/resultModal";
 import { IconButton } from "@/components/ui/iconButton";
 import { Words } from "@/components/words";
 import { useGame } from "@/contexts/gameContext";
 import { useTyping } from "@/hooks/useTyping";
+import { cn } from "@/lib/utils";
 
-export function TimedTyping() {
+export function Timed() {
   const [isGameFinished, setIsGameFinished] = useState(false);
 
   const { time: selectedTime } = useGame();
@@ -51,9 +52,9 @@ export function TimedTyping() {
   }
 
   return (
-    <div className="flex w-full max-w-[1200px] flex-col items-center gap-5 px-10">
+    <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
       {isGameFinished && (
-        <Result
+        <ResultModal
           correctCharacters={correctCharactersCount}
           incorrectCharacters={incorrectCharactersCount}
           timePassed={selectedTime}
@@ -63,19 +64,24 @@ export function TimedTyping() {
         />
       )}
 
-      {hasGameStarted && (
-        <span className="self-start text-5xl font-semibold text-neutral-200">
+      <div className="flex flex-col gap-4">
+        <span
+          className={cn([
+            "self-start text-5xl font-semibold text-neutral-200",
+            hasGameStarted ? "opacity-1" : "opacity-0",
+          ])}
+        >
           {formatTime(time)}
         </span>
-      )}
 
-      <Words
-        activeLetter={activeLetter}
-        activeWord={activeWord}
-        incorrectLetters={incorrectLetters}
-        isInStandBy={!hasGameStarted}
-        words={words}
-      />
+        <Words
+          activeLetter={activeLetter}
+          activeWord={activeWord}
+          incorrectLetters={incorrectLetters}
+          isInStandBy={!hasGameStarted}
+          words={words}
+        />
+      </div>
 
       <IconButton onClick={restartGame}>
         <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
