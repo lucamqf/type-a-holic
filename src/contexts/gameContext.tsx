@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import { useWords } from "@/hooks/useWords";
 import { createContext, useContext, useState } from "react";
 
 export enum enGameType {
@@ -11,6 +12,9 @@ interface IGameContext {
   selectedTimeOption: number | string;
   gameType: enGameType;
   timeOptions: (number | string)[];
+  words: string[];
+  generateMoreWords(): void;
+  refreshWords(): void;
   setTimeOption: (timeOption: number | string) => void;
   setGameType: (gameType: enGameType) => void;
 }
@@ -20,6 +24,8 @@ const gameContext = createContext({} as IGameContext);
 const timeOptions = [60, 180, 300];
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
+  const { words, generateMoreWords, refreshWords } = useWords(100);
+
   const [gameType, setGameType] = useState(enGameType.TIMED);
   const [timeOption, setTimeOption] = useState<string | number>(60);
   const [time, setTime] = useState(60);
@@ -44,6 +50,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   return (
     <gameContext.Provider
       value={{
+        words,
+        generateMoreWords,
+        refreshWords,
         timeOptions,
         gameType,
         time,

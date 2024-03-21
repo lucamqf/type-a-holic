@@ -1,8 +1,7 @@
 import { RotateCcw } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useTimedGame } from "@/hooks/useTimedGame";
-import { useWords } from "@/hooks/useWords";
 
 import { formatTime } from "@/utils/formatTime";
 
@@ -16,9 +15,8 @@ import { cn } from "@/lib/utils";
 
 export function Timed() {
   const [isGameFinished, setIsGameFinished] = useState(false);
-  const [words, setWords] = useState<string[]>([]);
 
-  const { time: selectedTime } = useGame();
+  const { words, refreshWords, time: selectedTime } = useGame();
 
   const {
     activeWord,
@@ -35,14 +33,9 @@ export function Timed() {
     onKeyPress: handleStartGame,
     onLastWord: handleRefresh,
   });
-  const { words: wordsFromHook, refreshWords } = useWords(100, {
-    shouldAutoGenerate: true,
-    generationGap: 30,
-    currentWord: activeWord,
-  });
-  const { time, startGame, restartGame, hasGameStarted } = useTimedGame({
+  const { time, startGame, hasGameStarted } = useTimedGame({
     seconds: selectedTime,
-    onReset: handleRestartGame,
+    onReset: handleCleanGame,
     onFinished: () => setIsGameFinished(true),
   });
   const { scrollRef, registerWord } = useAutoScroll({ activeWord });
@@ -57,16 +50,15 @@ export function Timed() {
     }
   }
 
-  function handleRestartGame() {
+  function handleCleanGame() {
     resetWords();
-    refreshWords();
     setIsGameFinished(false);
   }
 
-  // This effect is needed to prevent "words" Temporal Dead Zone (TDZ) error
-  useEffect(() => {
-    setWords(wordsFromHook);
-  }, [wordsFromHook]);
+  function handleRestartGame() {
+    handleCleanGame();
+    refreshWords();
+  }
 
   return (
     <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
@@ -102,11 +94,9 @@ export function Timed() {
         />
       </div>
 
-      {hasGameStarted && (
-        <IconButton onClick={restartGame}>
-          <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
-        </IconButton>
-      )}
+      <IconButton onClick={handleRestartGame}>
+        <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
+      </IconButton>
     </div>
   );
 }

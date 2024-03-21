@@ -15,7 +15,7 @@ export function IconButton({
     <Button
       {...props}
       className={cn([
-        "group rounded-full bg-transparent p-2 shadow-none outline-none outline-none hover:bg-neutral-800",
+        "group rounded-full border-none bg-transparent p-2 shadow-none outline-none hover:bg-neutral-800 focus-visible:outline-none",
         className,
       ])}
     >

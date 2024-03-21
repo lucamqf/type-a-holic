@@ -20,6 +20,13 @@ export function useInfiniteGame({ onReset }: IUseInfiniteGame = {}) {
     increaseTimer();
   };
 
+  function cleanTimer() {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }
+
   function increaseTimer() {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -39,10 +46,7 @@ export function useInfiniteGame({ onReset }: IUseInfiniteGame = {}) {
   }
 
   function endGame() {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
+    cleanTimer();
     setTime(0);
     setHasGameStarted(false);
   }
@@ -75,6 +79,7 @@ export function useInfiniteGame({ onReset }: IUseInfiniteGame = {}) {
     resumeGame,
     pauseGame,
     restartGame,
+    cleanTimer,
     time,
     hasGameStarted,
   };
