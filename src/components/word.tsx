@@ -1,24 +1,31 @@
+import { useEffect, useRef } from "react";
 import { Letter } from "./letter";
 
 interface IWordProps {
-  letters: string[];
+  word: string;
   activeLetter: number;
   isActive: boolean;
   incorrectLetters: [number, number][];
   isInStandBy: boolean;
   currentWordIndex: number;
   shouldBeHighlighted: boolean;
+  onLayout?(verticalPosition: number): void;
 }
 
 export function Word({
-  letters,
+  word,
   activeLetter,
   isActive,
   incorrectLetters,
   isInStandBy,
   currentWordIndex,
   shouldBeHighlighted,
+  onLayout,
 }: IWordProps) {
+  const wordRef = useRef<HTMLDivElement>(null);
+
+  const letters = word.split("");
+
   function getLetterStatus(isPastLetter: boolean, isIncorrect: boolean) {
     if (isIncorrect) {
       return "incorrect";
@@ -50,8 +57,14 @@ export function Word({
     return "none";
   }
 
+  useEffect(() => {
+    if (onLayout && wordRef.current) {
+      onLayout(wordRef.current.offsetTop);
+    }
+  }, [onLayout, word]);
+
   return (
-    <div>
+    <div ref={wordRef}>
       {letters.map((letter, letterIndex) => {
         const isPastLetter = activeLetter > letterIndex && isActive;
 

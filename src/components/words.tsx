@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { Word } from "./word";
 
 interface IWordsProps {
@@ -6,34 +7,53 @@ interface IWordsProps {
   activeLetter: number;
   isInStandBy: boolean;
   incorrectLetters: [number, number][];
+  onRegisterWord?(index: number, verticalPosition: number): void;
 }
 
-export function Words({
-  words,
-  activeLetter,
-  activeWord,
-  incorrectLetters,
-  isInStandBy,
-}: IWordsProps) {
-  return (
-    <div className="flex w-full flex-wrap gap-x-2 gap-y-6">
-      {words.map((word, wordIndex) => {
-        const isWordActive = activeWord === wordIndex;
-        const isPastWord = activeWord > wordIndex;
+export const Words = forwardRef<HTMLDivElement, IWordsProps>(
+  (
+    {
+      words,
+      activeLetter,
+      activeWord,
+      incorrectLetters,
+      isInStandBy,
+      onRegisterWord,
+    },
+    ref
+  ) => {
+    function handleRegisterWord(index: number) {
+      return (verticalPosition: number) => {
+        if (onRegisterWord) {
+          onRegisterWord(index, verticalPosition);
+        }
+      };
+    }
 
-        return (
-          <Word
-            key={word + wordIndex}
-            activeLetter={activeLetter}
-            currentWordIndex={wordIndex}
-            incorrectLetters={incorrectLetters}
-            isActive={isWordActive}
-            isInStandBy={isInStandBy}
-            letters={word.split("")}
-            shouldBeHighlighted={isPastWord}
-          />
-        );
-      })}
-    </div>
-  );
-}
+    return (
+      <div
+        ref={ref}
+        className="flex h-[240px] w-full flex-wrap gap-x-2 gap-y-6 overflow-hidden"
+      >
+        {words.map((word, wordIndex) => {
+          const isWordActive = activeWord === wordIndex;
+          const isPastWord = activeWord > wordIndex;
+
+          return (
+            <Word
+              key={word + wordIndex}
+              activeLetter={activeLetter}
+              currentWordIndex={wordIndex}
+              incorrectLetters={incorrectLetters}
+              isActive={isWordActive}
+              isInStandBy={isInStandBy}
+              shouldBeHighlighted={isPastWord}
+              word={word}
+              onLayout={handleRegisterWord(wordIndex)}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+);

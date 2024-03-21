@@ -1,5 +1,5 @@
 import { RotateCcw } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTimedGame } from "@/hooks/useTimedGame";
 import { useWords } from "@/hooks/useWords";
@@ -10,14 +10,16 @@ import { ResultModal } from "@/components/resultModal";
 import { IconButton } from "@/components/ui/iconButton";
 import { Words } from "@/components/words";
 import { useGame } from "@/contexts/gameContext";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useTyping } from "@/hooks/useTyping";
 import { cn } from "@/lib/utils";
 
 export function Timed() {
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const [words, setWords] = useState<string[]>([]);
 
   const { time: selectedTime } = useGame();
-  const { words, refreshWords } = useWords();
+
   const {
     activeWord,
     resetWords,
@@ -31,13 +33,23 @@ export function Timed() {
     words,
     isBlocked: isGameFinished,
     onKeyPress: handleStartGame,
-    onLastWord: refreshWords,
+    onLastWord: handleRefresh,
+  });
+  const { words: wordsFromHook, refreshWords } = useWords(100, {
+    shouldAutoGenerate: true,
+    generationGap: 30,
+    currentWord: activeWord,
   });
   const { time, startGame, restartGame, hasGameStarted } = useTimedGame({
     seconds: selectedTime,
     onReset: handleRestartGame,
     onFinished: () => setIsGameFinished(true),
   });
+  const { scrollRef, registerWord } = useAutoScroll({ activeWord });
+
+  function handleRefresh() {
+    refreshWords();
+  }
 
   function handleStartGame() {
     if (!hasGameStarted) {
@@ -50,6 +62,11 @@ export function Timed() {
     refreshWords();
     setIsGameFinished(false);
   }
+
+  // This effect is needed to prevent "words" Temporal Dead Zone (TDZ) error
+  useEffect(() => {
+    setWords(wordsFromHook);
+  }, [wordsFromHook]);
 
   return (
     <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
@@ -67,7 +84,7 @@ export function Timed() {
       <div className="flex flex-col gap-4">
         <span
           className={cn([
-            "h-[68px] self-start text-5xl font-semibold text-neutral-200",
+            "h-[68px] select-none self-start text-5xl font-semibold text-neutral-200",
             hasGameStarted ? "opacity-1" : "opacity-0",
           ])}
         >
@@ -75,11 +92,13 @@ export function Timed() {
         </span>
 
         <Words
+          ref={scrollRef}
           activeLetter={activeLetter}
           activeWord={activeWord}
           incorrectLetters={incorrectLetters}
           isInStandBy={!hasGameStarted}
           words={words}
+          onRegisterWord={registerWord}
         />
       </div>
 

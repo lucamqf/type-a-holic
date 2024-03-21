@@ -46,7 +46,10 @@ function ResultItem({
       <Tooltip>
         <div className="flex flex-col gap-y-3 text-center">
           <p
-            className={cn(["font-bold text-neutral-600", titleSize[hierarchy]])}
+            className={cn([
+              "select-none font-bold text-neutral-600",
+              titleSize[hierarchy],
+            ])}
           >
             {title}
           </p>
@@ -54,7 +57,7 @@ function ResultItem({
             <p
               {...attributes}
               className={cn([
-                "text-green-600",
+                "select-none text-green-600",
                 valueSize[hierarchy],
                 attributes.className,
               ])}
