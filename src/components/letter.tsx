@@ -1,16 +1,12 @@
 import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, memo } from "react";
 
 interface ILetterProps extends HTMLAttributes<HTMLSpanElement> {
   letter: string;
   cursorPosition?: "left" | "right" | "none";
 }
 
-export function Letter({
-  letter,
-  cursorPosition,
-  ...attributes
-}: ILetterProps) {
+function Letter({ letter, cursorPosition, ...attributes }: ILetterProps) {
   return (
     <span
       {...attributes}
@@ -32,3 +28,14 @@ export function Letter({
     </span>
   );
 }
+
+function areEqual(prevProps: ILetterProps, nextProps: ILetterProps) {
+  const { letter: prevLetter, cursorPosition: prevCursorPosition } = prevProps;
+  const { letter: nextLetter, cursorPosition: nextCursorPosition } = nextProps;
+
+  return prevLetter === nextLetter && prevCursorPosition === nextCursorPosition;
+}
+
+const MemoizedLetter = memo(Letter, areEqual);
+
+export { MemoizedLetter as Letter };
