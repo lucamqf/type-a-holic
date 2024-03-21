@@ -20,6 +20,7 @@ export function useTyping({
   const [wordCount, setWordCount] = useState(0);
   const [charactersCount, setCharactersCount] = useState(0);
   const [activeLetterInWord, setActiveLetterInWord] = useState(0);
+  const [incorrectCharactersCount, setIncorrectCharactersCount] = useState(0);
   const [incorrectLetters, setIncorrectLetters] = useState<[number, number][]>(
     []
   );
@@ -47,7 +48,7 @@ export function useTyping({
       return;
     }
 
-    handleCorrectLetter(event.key);
+    validateCharacter(event.key);
   }
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -83,6 +84,7 @@ export function useTyping({
     if (shouldRemoveIncorrectLetter) {
       incorrectLettersCopy.pop();
       setIncorrectLetters(incorrectLettersCopy);
+      setIncorrectCharactersCount((prev) => prev - 1);
     }
 
     if (isFirstLetter) {
@@ -95,7 +97,7 @@ export function useTyping({
     setActiveLetterInWord((prev) => prev - 1);
   }
 
-  function handleCorrectLetter(letter: string) {
+  function validateCharacter(letter: string) {
     const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
 
     if (shouldGoToNextWord) return;
@@ -107,6 +109,7 @@ export function useTyping({
         ...prev,
         [activeWord, activeLetterInWord],
       ]);
+      setIncorrectCharactersCount((prev) => prev + 1);
     }
 
     setCharactersCount((prev) => prev + 1);
@@ -120,6 +123,7 @@ export function useTyping({
 
     if (isLastWord) {
       setActiveWord(0);
+      setIncorrectLetters([]);
       onLastWord();
       return;
     }
@@ -128,7 +132,6 @@ export function useTyping({
     setActiveWord((prev) => prev + 1);
   }
 
-  const incorrectCharactersCount = incorrectLetters.length;
   const correctCharactersCount = charactersCount - incorrectCharactersCount;
   const isLastWord = activeWord >= words.length - 1;
 
