@@ -35,10 +35,28 @@ export function Word({
     return "";
   }
 
+  function getCursorPosition(letterIndex: number) {
+    if (isInStandBy) {
+      return "none";
+    }
+
+    if (isActive && activeLetter - 1 === letterIndex) {
+      return "right";
+    }
+
+    if (isActive && letterIndex === 0 && activeLetter === 0) {
+      return "left";
+    }
+
+    return "none";
+  }
+
   return (
     <div>
       {letters.map((letter, letterIndex) => {
         const isPastLetter = activeLetter > letterIndex && isActive;
+
+        const cursorPosition = getCursorPosition(letterIndex);
 
         const isIncorrect = incorrectLetters.find(
           ([incorrectWordIndex, incorrectLetterIndex]) =>
@@ -49,6 +67,7 @@ export function Word({
         return (
           <Letter
             key={`${currentWordIndex}-${letterIndex}-${letter}`}
+            cursorPosition={cursorPosition}
             data-status={getLetterStatus(!!isPastLetter, !!isIncorrect)}
             letter={letter}
           />
