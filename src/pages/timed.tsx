@@ -67,7 +67,7 @@ export function Timed() {
       <div className="flex flex-col gap-4">
         <span
           className={cn([
-            "self-start text-5xl font-semibold text-neutral-200",
+            "h-[68px] self-start text-5xl font-semibold text-neutral-200",
             hasGameStarted ? "opacity-1" : "opacity-0",
           ])}
         >
@@ -83,9 +83,11 @@ export function Timed() {
         />
       </div>
 
-      <IconButton onClick={restartGame}>
-        <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
-      </IconButton>
+      {hasGameStarted && (
+        <IconButton onClick={restartGame}>
+          <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
+        </IconButton>
+      )}
     </div>
   );
 }
