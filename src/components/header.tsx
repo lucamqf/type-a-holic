@@ -1,5 +1,5 @@
 import { enGameType, useGame } from "@/contexts/gameContext";
-import { Clock, Infinity } from "lucide-react";
+import { Clock, Component, Infinity } from "lucide-react";
 import { SelectButton } from "./ui/selectButton";
 import { Separator } from "./ui/separator";
 import {
@@ -37,13 +37,22 @@ export function Header() {
             onSelect={() => setGameType(enGameType.INFINITE)}
           />
 
+          <SelectButton
+            customIconProps={{ size: 18 }}
+            icon={Component}
+            isSelected={gameType === enGameType.PERFECTION}
+            label="Perfeição"
+            onSelect={() => setGameType(enGameType.PERFECTION)}
+          />
+
           <Separator
             className="w-[4px] rounded bg-neutral-800"
             orientation="vertical"
           />
         </div>
 
-        {gameType === enGameType.TIMED && (
+        {(gameType === enGameType.TIMED ||
+          gameType === enGameType.PERFECTION) && (
           <div className="ml-auto flex items-center gap-2">
             <Separator
               className="w-[4px] rounded bg-neutral-800"

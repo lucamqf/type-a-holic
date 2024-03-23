@@ -4,6 +4,7 @@ import { useEventListener } from "./useEventListener";
 interface IUseTyping {
   words: string[];
   isBlocked?: boolean;
+  shouldValidateBeforeNextWord?: boolean;
   onKeyPress?(): void;
   onKeyDown?(): void;
   onLastWord?(): void;
@@ -12,6 +13,7 @@ interface IUseTyping {
 export function useTyping({
   words,
   isBlocked = false,
+  shouldValidateBeforeNextWord = false,
   onKeyPress = () => undefined,
   onKeyDown = () => undefined,
   onLastWord = () => undefined,
@@ -44,7 +46,14 @@ export function useTyping({
     const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
 
     if (event.key === " " && shouldGoToNextWord) {
+      if (shouldValidateBeforeNextWord) {
+        const canGoToNextWord = incorrectLetters.length === 0;
+
+        if (!canGoToNextWord) return;
+      }
+
       goToNextWord();
+
       return;
     }
 

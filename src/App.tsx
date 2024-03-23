@@ -12,6 +12,7 @@ function App() {
 
       {gameType === enGameType.TIMED && <Timed />}
       {gameType === enGameType.INFINITE && <Infinite />}
+      {gameType === enGameType.PERFECTION && <Timed isPerfectionModeEnabled />}
     </div>
   );
 }

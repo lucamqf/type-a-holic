@@ -5,6 +5,7 @@ import { createContext, useContext, useState } from "react";
 export enum enGameType {
   TIMED = "timed",
   INFINITE = "infinite",
+  PERFECTION = "perfection",
 }
 
 interface IGameContext {
