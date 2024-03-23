@@ -1,18 +1,38 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes, memo } from "react";
 
+type ICursorPosition = "left" | "right" | "none";
+type IStatus = "highlighted" | "incorrect" | "standBy" | "none";
+
 interface ILetterProps extends HTMLAttributes<HTMLSpanElement> {
   letter: string;
-  cursorPosition?: "left" | "right" | "none";
+  cursorPosition?: ICursorPosition;
+  status?: IStatus;
 }
 
-function Letter({ letter, cursorPosition, ...attributes }: ILetterProps) {
+function Letter({
+  letter,
+  cursorPosition,
+  status,
+  ...attributes
+}: ILetterProps) {
+  function getTextColor(status?: IStatus) {
+    const statusColor = {
+      highlighted: "text-neutral-300",
+      incorrect: "text-red-500",
+      standBy: "text-neutral-800",
+      none: "text-neutral-600",
+    };
+
+    return statusColor[status || "none"];
+  }
+
   return (
     <span
       {...attributes}
       className={cn([
-        "relative select-none font-body text-3xl font-medium text-neutral-600 transition-colors duration-200",
-        "data-[status=highlighted]:text-neutral-300 data-[status=incorrect]:text-red-500 data-[status=standBy]:text-neutral-800",
+        "relative select-none font-body text-3xl font-medium text-neutral-600",
+        getTextColor(status),
       ])}
     >
       {letter}
@@ -29,13 +49,6 @@ function Letter({ letter, cursorPosition, ...attributes }: ILetterProps) {
   );
 }
 
-function areEqual(prevProps: ILetterProps, nextProps: ILetterProps) {
-  const { letter: prevLetter, cursorPosition: prevCursorPosition } = prevProps;
-  const { letter: nextLetter, cursorPosition: nextCursorPosition } = nextProps;
-
-  return prevLetter === nextLetter && prevCursorPosition === nextCursorPosition;
-}
-
-const MemoizedLetter = memo(Letter, areEqual);
+const MemoizedLetter = memo(Letter);
 
 export { MemoizedLetter as Letter };

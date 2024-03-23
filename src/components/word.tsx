@@ -38,7 +38,7 @@ export function Word({
     if (isInStandBy) {
       return "standBy";
     }
-    return "";
+    return "none";
   }
 
   function getCursorPosition(letterIndex: number) {
@@ -80,8 +80,8 @@ export function Word({
           <Letter
             key={`${currentWordIndex}-${letterIndex}-${letter}`}
             cursorPosition={cursorPosition}
-            data-status={getLetterStatus(!!isPastLetter, !!isIncorrect)}
             letter={letter}
+            status={getLetterStatus(!!isPastLetter, !!isIncorrect)}
           />
         );
       })}
