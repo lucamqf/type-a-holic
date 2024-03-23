@@ -42,6 +42,10 @@ export function Word({
   }
 
   function getCursorPosition(letterIndex: number) {
+    if (isInStandBy && letterIndex === 0 && isActive) {
+      return "left";
+    }
+
     if (isInStandBy) {
       return "none";
     }
