@@ -8,6 +8,7 @@ export function useAutoScroll<T extends HTMLDivElement>({
   activeWord,
 }: IUseAutoScroll) {
   const scrollRef = useRef<T>(null);
+  const previousActiveWord = useRef<number>(0);
 
   const [wordsPosition, setWordsPosition] = useState<Record<string, number>>(
     {}
@@ -34,20 +35,75 @@ export function useAutoScroll<T extends HTMLDivElement>({
 
   function handleScroll() {
     const currentWordPosition = wordsPosition?.[activeWord];
+    const cellSize = getSmallestCellSize();
+    const previousWordPosition = wordsPosition?.[activeWord - 1];
 
-    const cellSize = Object.values(wordsPosition ?? {})
+    const [currentPosition, previousPosition] = [
+      currentWordPosition ?? 0,
+      previousWordPosition ?? 0,
+    ];
+
+    if (shouldScrollToPreviousWord(previousPosition, currentPosition)) {
+      scrollToPreviousWord(previousPosition);
+      return;
+    }
+
+    if (
+      !currentWordPosition ||
+      isWithinFirstThreeCells(currentPosition, cellSize)
+    ) {
+      previousActiveWord.current = activeWord;
+      return;
+    }
+
+    previousActiveWord.current = activeWord;
+    scroll(previousPosition);
+  }
+
+  function getSmallestCellSize(): number {
+    return Object.values(wordsPosition ?? {})
       .filter(Boolean)
       .sort((a, b) => a - b)[0];
+  }
 
-    if (!currentWordPosition) return;
+  function shouldScrollToPreviousWord(
+    previousWordPosition: number,
+    currentWordPosition: number
+  ): boolean {
+    return (
+      previousActiveWord.current > activeWord &&
+      previousWordPosition < currentWordPosition
+    );
+  }
 
-    if (currentWordPosition < cellSize * 3) return;
+  function scrollToPreviousWord(previousWordPosition: number): void {
+    previousActiveWord.current = activeWord;
 
-    const lastWordPosition = wordsPosition?.[activeWord - 1];
+    const lastItemWithSmallerPositionIndex = Object.values(wordsPosition ?? {})
+      .reverse()
+      .findIndex((position) => position < previousWordPosition);
 
-    if (lastWordPosition < currentWordPosition) {
-      scroll(lastWordPosition);
+    const wordToScrollToIndex =
+      Object.keys(wordsPosition ?? {}).length -
+      lastItemWithSmallerPositionIndex -
+      1;
+
+    if (wordToScrollToIndex <= 0) {
+      scroll(0);
+      return;
     }
+
+    const scrollPosition = Object.values(wordsPosition ?? {})[
+      wordToScrollToIndex
+    ];
+    scroll(scrollPosition);
+  }
+
+  function isWithinFirstThreeCells(
+    currentWordPosition: number,
+    cellSize: number
+  ): boolean {
+    return currentWordPosition < cellSize * 3;
   }
 
   useEffect(() => {
