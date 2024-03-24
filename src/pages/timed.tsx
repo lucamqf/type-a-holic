@@ -73,7 +73,7 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
       <div className="flex flex-col gap-4">
         <span
           className={cn([
-            "h-[68px] select-none self-start text-5xl font-semibold text-neutral-200",
+            "text-text h-[68px] select-none self-start text-5xl font-semibold",
             hasGameStarted ? "opacity-1" : "opacity-0",
           ])}
         >
@@ -92,7 +92,7 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
       </div>
 
       <IconButton onClick={handleRestartGame}>
-        <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
+        <RotateCcw />
       </IconButton>
 
       {!isPerfectionModeEnabled && (

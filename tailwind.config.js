@@ -21,11 +21,19 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          100: "hsl(var(--background-100))",
+          200: "hsl(var(--background-200))",
+          300: "hsl(var(--background-300))",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "hsl(var(--primary-100))",
           foreground: "hsl(var(--primary-foreground))",
+          100: "hsl(var(--primary-100))",
+          200: "hsl(var(--primary-200))",
+          300: "hsl(var(--primary-300))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -50,6 +58,11 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        text: {
+          DEFAULT: "hsl(var(--text-100))",
+          100: "hsl(var(--text-100))",
+          200: "hsl(var(--text-200))",
         },
       },
       borderRadius: {

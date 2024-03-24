@@ -7,7 +7,7 @@ function App() {
   const { gameType } = useGame();
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center gap-14 bg-neutral-900 pt-40">
+    <div className="bg-prim bg-background-100 flex h-screen w-screen flex-col items-center gap-14 pt-40">
       <Header />
 
       {gameType === enGameType.TIMED && <Timed />}

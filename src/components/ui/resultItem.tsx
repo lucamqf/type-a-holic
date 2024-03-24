@@ -33,7 +33,7 @@ function ResultItem({
   const titleSize = {
     primary: "text-xl",
     secondary: "text-lg",
-    tertiary: "text-base",
+    tertiary: "text-[10px]",
   };
   const valueSize = {
     primary: "text-7xl",
@@ -44,10 +44,10 @@ function ResultItem({
   return (
     <TooltipProvider>
       <Tooltip>
-        <div className="flex flex-col gap-y-3 text-center">
+        <div className="flex flex-col gap-y-1 text-center">
           <p
             className={cn([
-              "select-none font-bold text-neutral-600",
+              "text-text select-none font-medium",
               titleSize[hierarchy],
             ])}
           >
@@ -57,7 +57,7 @@ function ResultItem({
             <p
               {...attributes}
               className={cn([
-                "select-none text-green-600",
+                "select-none font-semibold text-accent",
                 valueSize[hierarchy],
                 attributes.className,
               ])}
@@ -67,11 +67,7 @@ function ResultItem({
           </TooltipTrigger>
         </div>
 
-        {!!tooltip && (
-          <TooltipContent className="mb-1 bg-neutral-900 bg-opacity-90">
-            {tooltip}
-          </TooltipContent>
-        )}
+        {!!tooltip && <TooltipContent>{tooltip}</TooltipContent>}
       </Tooltip>
     </TooltipProvider>
   );

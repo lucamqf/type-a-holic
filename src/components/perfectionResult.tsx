@@ -35,8 +35,8 @@ export function PerfectionResult({
         </div>
 
         <div className="flex justify-center gap-4 pt-2">
-          <IconButton onClick={onRestart}>
-            <RotateCcw className="size-5 text-neutral-400" />
+          <IconButton className="hover:bg-background-300" onClick={onRestart}>
+            <RotateCcw />
           </IconButton>
         </div>
       </div>

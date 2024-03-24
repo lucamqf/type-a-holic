@@ -9,7 +9,7 @@ interface IModalProps {
 export function Modal({ isOpen, onOpenChange, children }: IModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="border-neutral-700 bg-neutral-950 bg-opacity-60 text-neutral-300">
+      <DialogContent className="text-text border-ring bg-card">
         {children}
       </DialogContent>
     </Dialog>

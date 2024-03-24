@@ -21,7 +21,7 @@ export function SelectButton({
   return (
     <Button
       {...attributes}
-      className="group flex h-fit items-center gap-1 bg-transparent p-0 px-2 text-neutral-500 hover:bg-transparent hover:text-neutral-200 data-[status=selected]:text-neutral-200"
+      className="text-text-200 hover:text-text-100 group flex h-fit items-center gap-1 bg-transparent p-0 px-2 font-semibold shadow-none hover:bg-transparent data-[status=selected]:text-accent"
       data-status={isSelected ? "selected" : ""}
       onClick={onSelect}
     >

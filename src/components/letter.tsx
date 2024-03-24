@@ -18,10 +18,10 @@ function Letter({
 }: ILetterProps) {
   function getTextColor(status?: IStatus) {
     const statusColor = {
-      highlighted: "text-neutral-300",
+      highlighted: "text-accent",
       incorrect: "text-red-500",
-      standBy: "text-neutral-800",
-      none: "text-neutral-600",
+      standBy: "text-muted",
+      none: "text-text",
     };
 
     return statusColor[status || "none"];
@@ -39,7 +39,7 @@ function Letter({
       {cursorPosition !== "none" && (
         <span
           className={cn([
-            "absolute h-full w-[2px] animate-pulse  rounded-md bg-neutral-300 duration-700",
+            "bg-text absolute h-full w-[2px]  animate-pulse rounded-md duration-700",
             cursorPosition === "left" && "left-0",
             cursorPosition === "right" && "right-0",
           ])}

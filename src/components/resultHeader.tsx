@@ -19,7 +19,7 @@ export function ResultHeader({
 }: IResultHeaderProps) {
   const throttledWordsPerMinute = useThrottle(
     getWordsPerMinute(),
-    30 * SECOND_IN_MILLISECONDS
+    10 * SECOND_IN_MILLISECONDS
   );
 
   function getWordsPerMinute() {
@@ -40,34 +40,36 @@ export function ResultHeader({
     return formattedPrecision;
   }
 
+  const itemClasses = "text-text font-normal";
+
   return (
     <div className="flex gap-4 self-center text-neutral-300">
       <ResultItem.Item
-        className="text-neutral-400"
+        className={itemClasses}
         hierarchy="tertiary"
         title="Caracteres"
         value={totalCharacters}
       />
       <ResultItem.Item
-        className="text-neutral-400"
+        className={itemClasses}
         hierarchy="tertiary"
         title="Corretos"
         value={correctCharacters}
       />
       <ResultItem.Item
-        className="text-neutral-400"
+        className={itemClasses}
         hierarchy="tertiary"
         title="Incorretos"
         value={incorrectCharacters}
       />
       <ResultItem.Item
-        className="text-neutral-400"
+        className={itemClasses}
         hierarchy="tertiary"
         title="Precisão"
         value={`${getPrecision()}%`}
       />
       <ResultItem.Item
-        className="text-neutral-400"
+        className={itemClasses}
         hierarchy="tertiary"
         title="PPM"
         value={throttledWordsPerMinute}

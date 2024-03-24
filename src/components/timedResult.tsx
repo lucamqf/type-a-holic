@@ -55,7 +55,7 @@ export function TimedResult({
 
         <div className="flex justify-center gap-4 pt-2">
           <IconButton onClick={onRestart}>
-            <RotateCcw className="size-5 text-neutral-400" />
+            <RotateCcw />
           </IconButton>
         </div>
       </div>

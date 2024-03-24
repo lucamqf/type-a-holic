@@ -66,7 +66,7 @@ export function Infinite() {
             hasGameStarted || isGameStopped ? "opacity-1" : "opacity-0",
           ])}
         >
-          <span className="select-none text-5xl font-semibold text-neutral-200">
+          <span className="text-text select-none text-5xl">
             {formatTime(time)}
           </span>
 
@@ -93,19 +93,15 @@ export function Infinite() {
       {hasGameStarted && !isGameStopped ? (
         <div className="flex gap-4">
           <IconButton onClick={handleStopGame}>
-            <CircleStop className="text-neutral-600 group-hover:text-neutral-400" />
+            <CircleStop />
           </IconButton>
           <IconButton onClick={() => togglePause()}>
-            {isPaused ? (
-              <Play className="text-neutral-600 group-hover:text-neutral-400" />
-            ) : (
-              <Pause className="text-neutral-600 group-hover:text-neutral-400" />
-            )}
+            {isPaused ? <Play /> : <Pause />}
           </IconButton>
         </div>
       ) : (
         <IconButton onClick={handleRestartGame}>
-          <RotateCcw className="text-neutral-600 group-hover:text-neutral-400" />
+          <RotateCcw />
         </IconButton>
       )}
     </div>
