@@ -1,6 +1,7 @@
 import { useThrottle } from "@/hooks/useThrottle";
 import { ResultItem } from "./ui/resultItem";
 import { MINUTE_IN_SECONDS, SECOND_IN_MILLISECONDS } from "@/constants/time";
+import { useTranslation } from "react-i18next";
 
 interface IResultHeaderProps {
   wordsCount: number;
@@ -17,6 +18,7 @@ export function ResultHeader({
   correctCharacters,
   incorrectCharacters,
 }: IResultHeaderProps) {
+  const { t } = useTranslation();
   const throttledWordsPerMinute = useThrottle(
     getWordsPerMinute(),
     10 * SECOND_IN_MILLISECONDS
@@ -43,35 +45,35 @@ export function ResultHeader({
   const itemClasses = "text-text font-normal";
 
   return (
-    <div className="flex gap-4 self-center text-neutral-300">
+    <div className="flex h-[68px] gap-4 self-center text-neutral-300">
       <ResultItem.Item
         className={itemClasses}
         hierarchy="tertiary"
-        title="Caracteres"
+        title={t("result.totalCharacters")}
         value={totalCharacters}
       />
       <ResultItem.Item
         className={itemClasses}
         hierarchy="tertiary"
-        title="Corretos"
+        title={t("result.correctCharacters")}
         value={correctCharacters}
       />
       <ResultItem.Item
         className={itemClasses}
         hierarchy="tertiary"
-        title="Incorretos"
+        title={t("result.incorrectCharacters")}
         value={incorrectCharacters}
       />
       <ResultItem.Item
         className={itemClasses}
         hierarchy="tertiary"
-        title="Precisão"
+        title={t("result.accuracy")}
         value={`${getPrecision()}%`}
       />
       <ResultItem.Item
         className={itemClasses}
         hierarchy="tertiary"
-        title="PPM"
+        title={t("result.wordsPerMinute")}
         value={throttledWordsPerMinute}
       />
     </div>

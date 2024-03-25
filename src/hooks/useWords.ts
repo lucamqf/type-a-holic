@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useLanguage } from "@/contexts/languageProvider";
+import { englishWords, portugueseWords } from "@/data/words";
 import { useEffect, useState } from "react";
-
-import allWords from "@/data/words.json";
 
 interface IRefreshOptions {
   shouldAutoGenerate?: boolean;
@@ -16,22 +17,15 @@ export function useWords(
     generationGap = amountOfWords,
   }: IRefreshOptions = {}
 ) {
-  if (shouldAutoGenerate && currentWord === undefined) {
-    throw new Error("You must provide a currentWord when using auto refresh");
-  }
+  const { language } = useLanguage();
+  const [words, setWords] = useState<string[]>([]);
 
-  const [words, setWords] = useState<string[]>(generateRandomWords());
-
-  function generateRandomWords(amount?: number) {
+  function generateRandomWords(amount = amountOfWords) {
+    const allWords = language === "pt" ? portugueseWords : englishWords;
     const randomWords: string[] = [];
 
-    const wordsToBeGenerated = amount ?? amountOfWords;
-
-    while (randomWords.length < wordsToBeGenerated) {
+    while (randomWords.length < amount) {
       const randomIndex = Math.floor(Math.random() * allWords.length);
-
-      if (randomWords.includes(allWords[randomIndex])) continue;
-
       randomWords.push(allWords[randomIndex]);
     }
 
@@ -43,18 +37,23 @@ export function useWords(
   }
 
   function generateMoreWords(amountOfWords?: number) {
-    setWords((prev) => [...prev, ...generateRandomWords(amountOfWords)]);
+    setWords((prevWords) => [
+      ...prevWords,
+      ...generateRandomWords(amountOfWords),
+    ]);
   }
 
   useEffect(() => {
-    if (!shouldAutoGenerate) return;
+    refreshWords();
+  }, [language]);
 
-    const triggerPoint = words.length - 1 - generationGap;
-
-    if (triggerPoint === currentWord) {
-      generateMoreWords();
+  useEffect(() => {
+    if (
+      shouldAutoGenerate &&
+      currentWord === words.length - 1 - generationGap
+    ) {
+      refreshWords();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWord, generationGap, shouldAutoGenerate, words]);
 
   return {

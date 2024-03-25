@@ -2,6 +2,7 @@ import { RotateCcw } from "lucide-react";
 import { Modal } from "./modal";
 import { IconButton } from "./ui/iconButton";
 import { ResultItem } from "./ui/resultItem";
+import { useTranslation } from "react-i18next";
 
 interface ITimedResultProps {
   isOpen: boolean;
@@ -20,6 +21,8 @@ export function TimedResult({
   totalCharacters,
   onRestart,
 }: ITimedResultProps) {
+  const { t } = useTranslation();
+
   const precisionPercentage = Math.floor(
     (correctCharacters * 100) / totalCharacters
   );
@@ -30,16 +33,16 @@ export function TimedResult({
         <div className="flex flex-col gap-4">
           <ResultItem.Group>
             <ResultItem.Item
-              title="PPM"
-              tooltip="Palavras por minuto"
+              title={t("result.wordsPerMinute")}
+              tooltip={t("tooltip.result.wordsPerMinute")}
               value={wordsPerMinute}
             />
             <ResultItem.Item
-              title="Precisão"
-              tooltip="Porcentagem de acertos em relação ao total de caracteres"
+              title={t("result.accuracy")}
+              tooltip={t("tooltip.result.accuracy")}
               value={
                 Number.isNaN(precisionPercentage)
-                  ? "00%"
+                  ? "0%"
                   : `${precisionPercentage.toString().padStart(2, "0")}%`
               }
             />
@@ -47,8 +50,8 @@ export function TimedResult({
 
           <ResultItem.Item
             hierarchy="secondary"
-            title="Caracteres"
-            tooltip="Total de caracteres digitados / Total de caracteres corretos / Total de caracteres incorretos"
+            title={t("result.totalCharacters")}
+            tooltip={t("tooltip.result.characters")}
             value={`${totalCharacters}/${correctCharacters}/${incorrectCharacters}`}
           />
         </div>

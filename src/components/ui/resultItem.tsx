@@ -44,16 +44,16 @@ function ResultItem({
   return (
     <TooltipProvider>
       <Tooltip>
-        <div className="flex flex-col gap-y-1 text-center">
-          <p
-            className={cn([
-              "text-text select-none font-medium",
-              titleSize[hierarchy],
-            ])}
-          >
-            {title}
-          </p>
-          <TooltipTrigger className="cursor-default">
+        <TooltipTrigger className="cursor-default">
+          <div className="flex flex-col gap-y-1 text-center">
+            <p
+              className={cn([
+                "text-text select-none font-medium",
+                titleSize[hierarchy],
+              ])}
+            >
+              {title}
+            </p>
             <p
               {...attributes}
               className={cn([
@@ -64,8 +64,8 @@ function ResultItem({
             >
               {value}
             </p>
-          </TooltipTrigger>
-        </div>
+          </div>
+        </TooltipTrigger>
 
         {!!tooltip && <TooltipContent>{tooltip}</TooltipContent>}
       </Tooltip>

@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useState } from "react";
+import { useLocalStorage } from "@/hooks/useStorage";
+import { createContext, useContext, useEffect } from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -25,11 +26,8 @@ export function ThemeProvider({
   children,
   defaultTheme = "dark",
   storageKey = "theme",
-  ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
+  const [theme, setTheme] = useLocalStorage(storageKey, defaultTheme);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -46,19 +44,11 @@ export function ThemeProvider({
       return;
     }
 
-    root.classList.add(theme);
+    root.classList.add(theme ?? "dark");
   }, [theme]);
 
-  const value = {
-    theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
-    },
-  };
-
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={{ theme: theme ?? "dark", setTheme }}>
       {children}
     </ThemeProviderContext.Provider>
   );
