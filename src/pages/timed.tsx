@@ -43,7 +43,9 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
     onReset: handleCleanGame,
     onFinished: () => setIsGameFinished(true),
   });
-  const { scrollRef, registerWord } = useAutoScroll({ activeWord });
+  const { scrollRef, resetScroll, registerWord } = useAutoScroll({
+    activeWord,
+  });
 
   function handleRefresh() {
     refreshWords();
@@ -56,14 +58,15 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   }
 
   function handleCleanGame() {
-    resetWords();
     setIsGameFinished(false);
+    resetScroll();
+    resetWords();
   }
 
   function handleRestartGame() {
-    handleCleanGame();
     refreshWords();
     restartGame();
+    handleCleanGame();
   }
 
   const wordsPerMinute = wordCount / (selectedTime / MINUTE_IN_SECONDS);
@@ -73,7 +76,7 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
       <div className="flex flex-col gap-4">
         <span
           className={cn([
-            "text-text h-[68px] select-none self-start text-5xl font-semibold",
+            "h-[68px] select-none self-start text-5xl font-semibold text-text",
             hasGameStarted ? "opacity-1" : "opacity-0",
           ])}
         >

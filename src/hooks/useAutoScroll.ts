@@ -25,6 +25,11 @@ export function useAutoScroll<T extends HTMLDivElement>({
     setWordsPosition((prev) => ({ ...prev, [index]: position }));
   }
 
+  function resetScroll() {
+    scroll(0);
+    setWordsPosition({});
+  }
+
   function scroll(position: number) {
     scrollRef.current?.scrollTo({
       top: position,
@@ -137,6 +142,7 @@ export function useAutoScroll<T extends HTMLDivElement>({
 
   return {
     scrollRef,
+    resetScroll,
     registerWord: handleRegisterWord,
   };
 }

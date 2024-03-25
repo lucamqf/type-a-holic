@@ -39,7 +39,7 @@ function Letter({
       {cursorPosition !== "none" && (
         <span
           className={cn([
-            "bg-text absolute h-full w-[2px]  animate-pulse rounded-md duration-700",
+            "absolute h-full w-[2px] animate-pulse  rounded-md bg-text duration-700",
             cursorPosition === "left" && "left-0",
             cursorPosition === "right" && "right-0",
           ])}
