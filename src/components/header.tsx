@@ -19,7 +19,7 @@ export function Header() {
         <ThemeSelector />
       </div>
 
-      <div className="bg-background-200 flex h-10 rounded-b-xl bg-opacity-30 px-2">
+      <div className="flex h-10 rounded-b-xl bg-background-200 bg-opacity-30 px-2">
         <GameSelector />
 
         <Separator

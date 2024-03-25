@@ -16,20 +16,21 @@ interface IGameContext {
   words: string[];
   generateMoreWords(): void;
   refreshWords(): void;
+  setTime(time: number): void;
   setTimeOption: (timeOption: number | string) => void;
   setGameType: (gameType: enGameType) => void;
 }
 
 const gameContext = createContext({} as IGameContext);
 
-const timeOptions = [60, 180, 300];
+const timeOptions = [60, 180, 300, "custom"];
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const { words, generateMoreWords, refreshWords } = useWords(100);
 
   const [gameType, setGameType] = useState(enGameType.TIMED);
-  const [timeOption, setTimeOption] = useState<string | number>(60);
-  const [time, setTime] = useState(60);
+  const [timeOption, setTimeOption] = useState<string | number>(timeOptions[0]);
+  const [time, setTime] = useState(timeOptions[0] as number);
 
   function handleSetTimeOption(timeOption: number | string) {
     if (timeOption === "custom") {
@@ -57,6 +58,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         timeOptions,
         gameType,
         time,
+        setTime,
         setGameType,
         selectedTimeOption: timeOption,
         setTimeOption: handleSetTimeOption,

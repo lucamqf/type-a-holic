@@ -21,7 +21,12 @@ interface ITimedProps {
 
 export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   const [isGameFinished, setIsGameFinished] = useState(false);
-  const { words, refreshWords, time: selectedTime } = useGame();
+  const {
+    words,
+    refreshWords,
+    time: selectedTime,
+    selectedTimeOption,
+  } = useGame();
   const {
     activeWord,
     resetWords,
@@ -34,7 +39,8 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   } = useTyping({
     words,
     shouldValidateBeforeNextWord: isPerfectionModeEnabled,
-    isBlocked: isGameFinished,
+    isBlocked:
+      isGameFinished || (selectedTimeOption === "custom" && selectedTime === 0),
     onKeyPress: handleStartGame,
     onLastWord: handleRefresh,
   });
