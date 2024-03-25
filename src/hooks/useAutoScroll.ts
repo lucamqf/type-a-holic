@@ -16,7 +16,6 @@ export function useAutoScroll<T extends HTMLDivElement>({
 
   function handleRegisterWord(index: number, verticalPosition: number) {
     const scrollPosition = scrollRef.current?.offsetTop ?? 0;
-
     const truePosition = verticalPosition - scrollPosition;
 
     if (wordsPosition[index] === truePosition) return;
@@ -50,14 +49,25 @@ export function useAutoScroll<T extends HTMLDivElement>({
 
     if (
       !currentWordPosition ||
-      isWithinFirstThreeCells(currentPosition, cellSize)
+      isWithinFirstFourRows(currentPosition, cellSize)
     ) {
       previousActiveWord.current = activeWord;
+
+      if (
+        isFourthRow(currentPosition, cellSize) &&
+        previousPosition < currentPosition
+      ) {
+        scroll(previousWordPosition);
+      }
+
       return;
     }
 
+    if (shouldScrollDown(previousPosition, currentPosition, cellSize)) {
+      scroll(previousPosition);
+    }
+
     previousActiveWord.current = activeWord;
-    scroll(previousPosition);
   }
 
   function getSmallestCellSize(): number {
@@ -74,6 +84,16 @@ export function useAutoScroll<T extends HTMLDivElement>({
       previousActiveWord.current > activeWord &&
       previousWordPosition < currentWordPosition
     );
+  }
+
+  function shouldScrollDown(
+    previousCurrentWordPosition: number,
+    currentWordPosition: number,
+    cellSize: number
+  ): boolean {
+    if (previousCurrentWordPosition === currentWordPosition) return false;
+
+    return currentWordPosition % (cellSize * 2) === 0;
   }
 
   function scrollToPreviousWord(previousWordPosition: number): void {
@@ -99,11 +119,15 @@ export function useAutoScroll<T extends HTMLDivElement>({
     scroll(scrollPosition);
   }
 
-  function isWithinFirstThreeCells(
+  function isWithinFirstFourRows(
     currentWordPosition: number,
     cellSize: number
   ): boolean {
-    return currentWordPosition < cellSize * 3;
+    return currentWordPosition <= cellSize * 3;
+  }
+
+  function isFourthRow(currentWordPosition: number, cellSize: number): boolean {
+    return currentWordPosition === cellSize * 3;
   }
 
   useEffect(() => {
