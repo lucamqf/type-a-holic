@@ -1,15 +1,25 @@
+import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "./ui/dialog";
 
-interface IModalProps {
+interface IModalProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   children: React.ReactNode;
   onOpenChange?(open: boolean): void;
 }
 
-export function Modal({ isOpen, onOpenChange, children }: IModalProps) {
+export function Modal({
+  isOpen,
+  onOpenChange,
+  children,
+  className,
+  ...attributes
+}: IModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="text-text border-ring bg-card">
+      <DialogContent
+        className={cn(["border-ring bg-card text-text", className])}
+        {...attributes}
+      >
         {children}
       </DialogContent>
     </Dialog>

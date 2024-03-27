@@ -1,5 +1,5 @@
 import { enGameType, useGame } from "@/contexts/gameContext";
-import { Clock, Component, Infinity } from "lucide-react";
+import { ChevronsUp, Clock, Component, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SelectButton } from "./ui/selectButton";
 
@@ -17,7 +17,7 @@ export function GameSelector() {
       />
 
       <SelectButton
-        customIconProps={{ size: 18 }}
+        customIconProps={{ size: 20 }}
         icon={Infinity}
         isSelected={gameType === enGameType.INFINITE}
         label={t("game.infinite")}
@@ -30,6 +30,14 @@ export function GameSelector() {
         isSelected={gameType === enGameType.PERFECTION}
         label={t("game.perfection")}
         onSelect={() => setGameType(enGameType.PERFECTION)}
+      />
+
+      <SelectButton
+        customIconProps={{ size: 22 }}
+        icon={ChevronsUp}
+        isSelected={gameType === enGameType.SURVIVAL}
+        label={t("game.survival")}
+        onSelect={() => setGameType(enGameType.SURVIVAL)}
       />
     </div>
   );

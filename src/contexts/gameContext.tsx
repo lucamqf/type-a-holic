@@ -6,6 +6,7 @@ export enum enGameType {
   TIMED = "timed",
   INFINITE = "infinite",
   PERFECTION = "perfection",
+  SURVIVAL = "survival",
 }
 
 interface IGameContext {
@@ -26,7 +27,7 @@ const gameContext = createContext({} as IGameContext);
 const timeOptions = [60, 180, 300, "custom"];
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
-  const { words, generateMoreWords, refreshWords } = useWords(100);
+  const { words, generateMoreWords, refreshWords } = useWords(300);
 
   const [gameType, setGameType] = useState(enGameType.TIMED);
   const [timeOption, setTimeOption] = useState<string | number>(timeOptions[0]);

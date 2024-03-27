@@ -9,6 +9,7 @@ interface IWordProps {
   isInStandBy: boolean;
   currentWordIndex: number;
   shouldBeHighlighted: boolean;
+  customWordRef?: React.RefObject<HTMLDivElement>;
   onLayout?(verticalPosition: number): void;
 }
 
@@ -21,6 +22,7 @@ export function Word({
   currentWordIndex,
   shouldBeHighlighted,
   onLayout,
+  customWordRef,
 }: IWordProps) {
   const wordRef = useRef<HTMLDivElement>(null);
 
@@ -62,13 +64,15 @@ export function Word({
   }
 
   useEffect(() => {
-    if (onLayout && wordRef.current) {
-      onLayout(wordRef.current.offsetTop);
+    const ref = customWordRef ?? wordRef;
+
+    if (onLayout && ref.current) {
+      onLayout(ref.current.offsetTop);
     }
-  }, [onLayout, word]);
+  }, [onLayout, word, customWordRef]);
 
   return (
-    <div ref={wordRef}>
+    <div ref={customWordRef ?? wordRef}>
       {letters.map((letter, letterIndex) => {
         const isPastLetter = activeLetter > letterIndex && isActive;
 

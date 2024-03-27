@@ -2,13 +2,20 @@ import { useEffect, useRef, useState } from "react";
 
 interface IUseAutoScroll {
   activeWord: number;
+  shouldAutoScroll?: boolean;
+  onOverlapped?: () => void;
 }
 
 export function useAutoScroll<T extends HTMLDivElement>({
   activeWord,
+  shouldAutoScroll = true,
+  onOverlapped = () => undefined,
 }: IUseAutoScroll) {
+  const activeWordRef = useRef<HTMLDivElement>(null);
+
   const scrollRef = useRef<T>(null);
   const previousActiveWord = useRef<number>(0);
+  const previousPosition = useRef<number>(0);
 
   const [wordsPosition, setWordsPosition] = useState<Record<string, number>>(
     {}
@@ -135,14 +142,43 @@ export function useAutoScroll<T extends HTMLDivElement>({
     return currentWordPosition === cellSize * 3;
   }
 
+  function scrollToNextRow() {
+    const cellSize = getSmallestCellSize();
+
+    if (!cellSize) return;
+
+    const nextRowPosition = previousPosition.current + getSmallestCellSize();
+
+    previousPosition.current = nextRowPosition;
+
+    scroll(nextRowPosition);
+
+    if (!activeWordRef.current || !scrollRef.current) return;
+
+    const currentWordPosition =
+      activeWordRef.current.offsetTop - scrollRef.current.offsetTop;
+
+    console.log({ currentWordPosition, nextRowPosition });
+
+    if (currentWordPosition < nextRowPosition) {
+      onOverlapped();
+    }
+  }
+
   useEffect(() => {
-    handleScroll();
+    if (shouldAutoScroll) {
+      handleScroll();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordsPosition, activeWord]);
 
+  useEffect(() => {}, []);
+
   return {
     scrollRef,
+    activeWordRef,
     resetScroll,
     registerWord: handleRegisterWord,
+    scrollToNextRow,
   };
 }

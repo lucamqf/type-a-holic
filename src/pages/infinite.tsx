@@ -66,7 +66,7 @@ export function Infinite() {
             hasGameStarted || isGameStopped ? "opacity-1" : "opacity-0",
           ])}
         >
-          <span className="text-text select-none text-5xl">
+          <span className="select-none text-5xl text-text">
             {formatTime(time)}
           </span>
 

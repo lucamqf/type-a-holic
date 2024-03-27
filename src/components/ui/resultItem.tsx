@@ -44,11 +44,11 @@ function ResultItem({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger className="cursor-default">
-          <div className="flex flex-col gap-y-1 text-center">
+        <TooltipTrigger className="w-fit cursor-default focus-visible:outline-none">
+          <div className="flex w-fit flex-col gap-y-1 text-center">
             <p
               className={cn([
-                "text-text select-none font-medium",
+                "select-none font-medium text-text",
                 titleSize[hierarchy],
               ])}
             >

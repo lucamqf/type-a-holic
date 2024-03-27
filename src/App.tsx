@@ -1,6 +1,7 @@
 import { Header } from "./components/header";
 import { enGameType, useGame } from "./contexts/gameContext";
 import { Infinite } from "./pages/infinite";
+import { Survival } from "./pages/survival";
 import { Timed } from "./pages/timed";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       {gameType === enGameType.TIMED && <Timed />}
       {gameType === enGameType.INFINITE && <Infinite />}
       {gameType === enGameType.PERFECTION && <Timed isPerfectionModeEnabled />}
+      {gameType === enGameType.SURVIVAL && <Survival />}
     </div>
   );
 }

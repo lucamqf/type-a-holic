@@ -7,6 +7,7 @@ interface IWordsProps {
   activeLetter: number;
   isInStandBy: boolean;
   incorrectLetters: [number, number][];
+  activeWordRef?: React.RefObject<HTMLDivElement>;
   onRegisterWord?(index: number, verticalPosition: number): void;
 }
 
@@ -19,6 +20,7 @@ export const Words = forwardRef<HTMLDivElement, IWordsProps>(
       incorrectLetters,
       isInStandBy,
       onRegisterWord,
+      activeWordRef,
     },
     ref
   ) => {
@@ -49,6 +51,9 @@ export const Words = forwardRef<HTMLDivElement, IWordsProps>(
               isInStandBy={isInStandBy}
               shouldBeHighlighted={isPastWord}
               word={word}
+              customWordRef={
+                wordIndex === activeWord ? activeWordRef : undefined
+              }
               onLayout={handleRegisterWord(wordIndex)}
             />
           );
