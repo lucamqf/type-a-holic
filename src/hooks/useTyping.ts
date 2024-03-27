@@ -36,6 +36,7 @@ export function useTyping({
     setIncorrectLetters([]);
     setWordCount(0);
     setCharactersCount(0);
+    setIncorrectCharactersCount(0);
   }
 
   function handleKeyPress(event: KeyboardEvent) {

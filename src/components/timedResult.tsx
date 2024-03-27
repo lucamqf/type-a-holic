@@ -23,14 +23,24 @@ export function TimedResult({
 }: ITimedResultProps) {
   const { t } = useTranslation();
 
-  const precisionPercentage = Math.floor(
-    (correctCharacters * 100) / totalCharacters
-  );
+  function getPrecisionPercentage() {
+    const precisionPercentage = Math.floor(
+      (correctCharacters * 100) / totalCharacters
+    );
+
+    if (Number.isNaN(precisionPercentage)) {
+      return 0;
+    }
+
+    const accuracy = Math.max(precisionPercentage, 0);
+
+    return accuracy;
+  }
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onRestart}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col items-center gap-4">
           <ResultItem.Group>
             <ResultItem.Item
               title={t("result.wordsPerMinute")}
@@ -40,11 +50,7 @@ export function TimedResult({
             <ResultItem.Item
               title={t("result.accuracy")}
               tooltip={t("tooltip.result.accuracy")}
-              value={
-                Number.isNaN(precisionPercentage)
-                  ? "0%"
-                  : `${precisionPercentage.toString().padStart(2, "0")}%`
-              }
+              value={`${getPrecisionPercentage()}%`}
             />
           </ResultItem.Group>
 

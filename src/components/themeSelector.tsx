@@ -7,7 +7,7 @@ export function ThemeSelector() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="bg-background-200 flex h-10 w-fit items-center gap-x-4 self-end rounded-t-xl bg-opacity-30 px-4">
+    <div className="flex h-10 w-fit items-center gap-x-4 self-end rounded-t-xl bg-background-200 bg-opacity-30 px-4">
       <IconButton
         className={cn([
           "p-0 hover:border-transparent",

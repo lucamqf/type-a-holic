@@ -27,6 +27,10 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
     time: selectedTime,
     selectedTimeOption,
   } = useGame();
+
+  const isGameBlocked =
+    isGameFinished || (selectedTimeOption === "custom" && selectedTime === 0);
+
   const {
     activeWord,
     resetWords,
@@ -39,11 +43,11 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   } = useTyping({
     words,
     shouldValidateBeforeNextWord: isPerfectionModeEnabled,
-    isBlocked:
-      isGameFinished || (selectedTimeOption === "custom" && selectedTime === 0),
+    isBlocked: isGameBlocked,
     onKeyPress: handleStartGame,
-    onLastWord: handleRefresh,
+    onLastWord: refreshWords,
   });
+
   const { time, startGame, restartGame, hasGameStarted } = useTimedGame({
     seconds: selectedTime,
     onReset: handleCleanGame,
@@ -52,10 +56,6 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   const { scrollRef, resetScroll, registerWord } = useAutoScroll({
     activeWord,
   });
-
-  function handleRefresh() {
-    refreshWords();
-  }
 
   function handleStartGame() {
     if (!hasGameStarted) {

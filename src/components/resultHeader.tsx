@@ -39,7 +39,7 @@ export function ResultHeader({
       ? 0
       : Math.floor(precision);
 
-    return formattedPrecision;
+    return Math.max(formattedPrecision, 0);
   }
 
   const itemClasses = "text-text font-normal";
