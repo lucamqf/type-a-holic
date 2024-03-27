@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useLanguage } from "@/contexts/languageProvider";
-import { englishWords, portugueseWords } from "@/data/words";
+import { englishWords, portugueseWords, spanishWords } from "@/data/words";
 import { useEffect, useState } from "react";
 
 interface IRefreshOptions {
@@ -21,7 +21,14 @@ export function useWords(
   const [words, setWords] = useState<string[]>([]);
 
   function generateRandomWords(amount = amountOfWords) {
-    const allWords = language === "pt" ? portugueseWords : englishWords;
+    const wordsMap: Record<string, string[]> = {
+      pt: portugueseWords,
+      en: englishWords,
+      es: spanishWords,
+    };
+
+    const allWords = wordsMap[language] ?? portugueseWords;
+
     const randomWords: string[] = [];
 
     while (randomWords.length < amount) {
