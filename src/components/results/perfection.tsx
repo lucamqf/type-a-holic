@@ -1,8 +1,10 @@
-import { RotateCcw } from "lucide-react";
+import { Copy, Download, RotateCcw } from "lucide-react";
 import { Modal } from "@/components/modal";
 import { IconButton } from "@/components/ui/iconButton";
 import { ResultItem } from "@/components/results/resultItem";
 import { useTranslation } from "react-i18next";
+import { useScreenshot } from "@/hooks/useScreenshot";
+import { useRef } from "react";
 
 interface IPerfectionResultProps {
   isOpen: boolean;
@@ -17,12 +19,24 @@ export function PerfectionResult({
   totalCharacters,
   onRestart,
 }: IPerfectionResultProps) {
+  const resultRef = useRef<HTMLDivElement>(null);
+
   const { t } = useTranslation();
+
+  const {
+    copyScreenshotToClipboard,
+    downloadScreenshot,
+    isCopyingScreenshotToClipboard,
+    isDownloadingScreenshot,
+  } = useScreenshot(resultRef);
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onRestart}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4">
+        <div
+          ref={resultRef}
+          className="flex flex-col gap-4 bg-background-200 p-4"
+        >
           <ResultItem.Group>
             <ResultItem.Item
               title={t("result.wordsPerMinute")}
@@ -38,8 +52,20 @@ export function PerfectionResult({
         </div>
 
         <div className="flex justify-center gap-4 pt-2">
-          <IconButton className="hover:bg-background-300" onClick={onRestart}>
+          <IconButton onClick={onRestart}>
             <RotateCcw />
+          </IconButton>
+          <IconButton
+            isLoading={isCopyingScreenshotToClipboard}
+            onClick={copyScreenshotToClipboard}
+          >
+            <Copy />
+          </IconButton>
+          <IconButton
+            isLoading={isDownloadingScreenshot}
+            onClick={downloadScreenshot}
+          >
+            <Download />
           </IconButton>
         </div>
       </div>

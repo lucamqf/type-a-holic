@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useState } from "react";
 
 function Result() {}
 
@@ -30,6 +30,8 @@ function ResultItem({
   hierarchy = "primary",
   ...attributes
 }: IResultItemProps) {
+  const [isTooltipOpen, toggleTooltipVisibility] = useState(false);
+
   const titleSize = {
     primary: "text-xl",
     secondary: "text-lg",
@@ -43,9 +45,13 @@ function ResultItem({
 
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip open={isTooltipOpen}>
         <TooltipTrigger className="w-fit cursor-default focus-visible:outline-none">
-          <div className="flex w-fit flex-col gap-y-1 text-center">
+          <div
+            className="flex w-fit flex-col gap-y-1 text-center"
+            onMouseOut={() => toggleTooltipVisibility(false)}
+            onMouseOver={() => toggleTooltipVisibility(true)}
+          >
             <p
               className={cn([
                 "select-none font-medium text-text",

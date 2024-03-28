@@ -3,6 +3,7 @@ import { enGameType, useGame } from "@/contexts/gameContext";
 import { Infinite } from "@/pages/infinite";
 import { Survival } from "@/pages/survival";
 import { Timed } from "@/pages/timed";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   const { gameType } = useGame();
@@ -15,6 +16,8 @@ function App() {
       {gameType === enGameType.INFINITE && <Infinite />}
       {gameType === enGameType.PERFECTION && <Timed isPerfectionModeEnabled />}
       {gameType === enGameType.SURVIVAL && <Survival />}
+
+      <Toaster />
     </div>
   );
 }

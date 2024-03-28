@@ -4,15 +4,32 @@ import { Words } from "@/components/words";
 import { useGame } from "@/contexts/gameContext";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useInfiniteGame } from "@/hooks/useInfiniteGame";
+import { useScreenshot } from "@/hooks/useScreenshot";
+import { useToggle } from "@/hooks/useToggle";
 import { useTyping } from "@/hooks/useTyping";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/utils/formatTime";
-import { CircleStop, Pause, Play, RotateCcw } from "lucide-react";
-import { useState } from "react";
+import {
+  CircleStop,
+  Copy,
+  Download,
+  Pause,
+  Play,
+  RotateCcw,
+} from "lucide-react";
+import { useRef } from "react";
 
 export function Infinite() {
-  const [isGameStopped, setIsGameStopped] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
 
+  const [isStopped, toggleStop] = useToggle(false);
+
+  const {
+    copyScreenshotToClipboard,
+    downloadScreenshot,
+    isCopyingScreenshotToClipboard,
+    isDownloadingScreenshot,
+  } = useScreenshot(resultRef);
   const { words, refreshWords } = useGame();
   const {
     time,
@@ -35,7 +52,7 @@ export function Infinite() {
   } = useTyping({
     words,
     onKeyPress: handleKeyPress,
-    isBlocked: isPaused || isGameStopped,
+    isBlocked: isPaused || isStopped,
   });
   const { scrollRef, registerWord } = useAutoScroll({ activeWord });
 
@@ -47,15 +64,19 @@ export function Infinite() {
 
   function handleStopGame() {
     cleanTimer();
-    setIsGameStopped(true);
+    toggleStop(true);
   }
 
   function handleRestartGame() {
     resetWords();
     restartGame();
     refreshWords();
-    setIsGameStopped(false);
+    toggleStop(false);
   }
+
+  const isGameRunning = hasGameStarted && !isStopped;
+  const isInStandBy = !hasGameStarted && !isStopped;
+  const isGameStopped = hasGameStarted && isStopped;
 
   return (
     <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
@@ -63,7 +84,7 @@ export function Infinite() {
         <div
           className={cn([
             "flex items-end justify-between",
-            hasGameStarted || isGameStopped ? "opacity-1" : "opacity-0",
+            hasGameStarted || isStopped ? "opacity-1" : "opacity-1",
           ])}
         >
           <span className="select-none text-5xl text-text">
@@ -71,6 +92,7 @@ export function Infinite() {
           </span>
 
           <ResultHeader
+            ref={resultRef}
             correctCharacters={correctCharactersCount}
             incorrectCharacters={incorrectCharactersCount}
             time={time}
@@ -84,26 +106,52 @@ export function Infinite() {
           activeLetter={activeLetter}
           activeWord={activeWord}
           incorrectLetters={incorrectLetters}
-          isInStandBy={!hasGameStarted || isPaused || isGameStopped}
+          isInStandBy={!hasGameStarted || isPaused || isStopped}
           words={words}
           onRegisterWord={registerWord}
         />
       </div>
 
-      {hasGameStarted && !isGameStopped ? (
-        <div className="flex gap-4">
-          <IconButton onClick={handleStopGame}>
-            <CircleStop />
+      <div className="flex gap-4">
+        {isGameRunning && (
+          <>
+            <IconButton onClick={handleStopGame}>
+              <CircleStop />
+            </IconButton>
+            <IconButton onClick={() => togglePause()}>
+              {isPaused ? <Play /> : <Pause />}
+            </IconButton>
+          </>
+        )}
+
+        {isGameStopped && (
+          <>
+            <IconButton onClick={handleRestartGame}>
+              <RotateCcw />
+            </IconButton>
+
+            <IconButton
+              isLoading={isCopyingScreenshotToClipboard}
+              onClick={copyScreenshotToClipboard}
+            >
+              <Copy />
+            </IconButton>
+
+            <IconButton
+              isLoading={isDownloadingScreenshot}
+              onClick={downloadScreenshot}
+            >
+              <Download />
+            </IconButton>
+          </>
+        )}
+
+        {isInStandBy && (
+          <IconButton onClick={handleRestartGame}>
+            <RotateCcw />
           </IconButton>
-          <IconButton onClick={() => togglePause()}>
-            {isPaused ? <Play /> : <Pause />}
-          </IconButton>
-        </div>
-      ) : (
-        <IconButton onClick={handleRestartGame}>
-          <RotateCcw />
-        </IconButton>
-      )}
+        )}
+      </div>
     </div>
   );
 }

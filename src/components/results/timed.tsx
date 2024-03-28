@@ -1,7 +1,9 @@
-import { RotateCcw } from "lucide-react";
 import { Modal } from "@/components/modal";
-import { IconButton } from "@/components/ui/iconButton";
 import { ResultItem } from "@/components/results/resultItem";
+import { IconButton } from "@/components/ui/iconButton";
+import { useScreenshot } from "@/hooks/useScreenshot";
+import { Copy, Download, RotateCcw } from "lucide-react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 interface ITimedResultProps {
@@ -21,7 +23,15 @@ export function TimedResult({
   totalCharacters,
   onRestart,
 }: ITimedResultProps) {
+  const resultRef = useRef<HTMLDivElement>(null);
+
   const { t } = useTranslation();
+  const {
+    isCopyingScreenshotToClipboard,
+    isDownloadingScreenshot,
+    copyScreenshotToClipboard,
+    downloadScreenshot,
+  } = useScreenshot(resultRef);
 
   function getPrecisionPercentage() {
     const precisionPercentage = Math.floor(
@@ -40,7 +50,10 @@ export function TimedResult({
   return (
     <Modal isOpen={isOpen} onOpenChange={onRestart}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col items-center gap-4">
+        <div
+          ref={resultRef}
+          className="flex flex-col items-center gap-4 bg-background-200 p-4"
+        >
           <ResultItem.Group>
             <ResultItem.Item
               title={t("result.wordsPerMinute")}
@@ -65,6 +78,18 @@ export function TimedResult({
         <div className="flex justify-center gap-4 pt-2">
           <IconButton onClick={onRestart}>
             <RotateCcw />
+          </IconButton>
+          <IconButton
+            isLoading={isCopyingScreenshotToClipboard}
+            onClick={copyScreenshotToClipboard}
+          >
+            <Copy />
+          </IconButton>
+          <IconButton
+            isLoading={isDownloadingScreenshot}
+            onClick={downloadScreenshot}
+          >
+            <Download />
           </IconButton>
         </div>
       </div>
