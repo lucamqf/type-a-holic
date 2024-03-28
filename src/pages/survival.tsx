@@ -2,14 +2,14 @@ import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
 import { SurvivalResult } from "@/components/results/survival";
-import { IconButton } from "@/components/ui/iconButton";
+import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
-import { useGame } from "@/contexts/gameContext";
-import { useAutoScroll } from "@/hooks/useAutoScroll";
-import { useSurvival } from "@/hooks/useSurvival";
-import { useTyping } from "@/hooks/useTyping";
+import { useGame } from "@/contexts/game-provider";
+import { useAutoScroll } from "@/hooks/use-auto-scroll";
+import { useSurvival } from "@/hooks/use-survival";
+import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
-import { formatTime } from "@/utils/formatTime";
+import { formatTime } from "@/utils/format-time";
 
 export function Survival() {
   const [isGameFinished, setIsGameFinished] = useState(false);

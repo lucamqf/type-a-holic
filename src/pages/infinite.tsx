@@ -1,14 +1,14 @@
-import { ResultHeader } from "@/components/resultHeader";
-import { IconButton } from "@/components/ui/iconButton";
+import { ResultHeader } from "@/components/results/result-header";
+import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
-import { useGame } from "@/contexts/gameContext";
-import { useAutoScroll } from "@/hooks/useAutoScroll";
-import { useInfiniteGame } from "@/hooks/useInfiniteGame";
-import { useScreenshot } from "@/hooks/useScreenshot";
-import { useToggle } from "@/hooks/useToggle";
-import { useTyping } from "@/hooks/useTyping";
+import { useGame } from "@/contexts/game-provider";
+import { useAutoScroll } from "@/hooks/use-auto-scroll";
+import { useInfiniteGame } from "@/hooks/use-infinite-game";
+import { useScreenshot } from "@/hooks/use-screenshot";
+import { useToggle } from "@/hooks/use-toggle";
+import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
-import { formatTime } from "@/utils/formatTime";
+import { formatTime } from "@/utils/format-time";
 import {
   CircleStop,
   Copy,

@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useLocalStorage } from "@/hooks/useStorage";
+import { useLocalStorage } from "@/hooks/use-storage";
 import { createContext, useContext, useEffect } from "react";
 
 type Theme = "dark" | "light" | "system";

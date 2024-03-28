@@ -1,4 +1,4 @@
-import { useGame } from "@/contexts/gameContext";
+import { useGame } from "@/contexts/game-provider";
 import {
   Tooltip,
   TooltipContent,
@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useTranslation } from "react-i18next";
-import { SelectButton } from "@/components/ui/selectButton";
+import { SelectButton } from "@/components/ui/select-button";
 import { Check, Pencil } from "lucide-react";
 import {
   Popover,
@@ -16,9 +16,9 @@ import {
 import { useState } from "react";
 import { MINUTE_IN_SECONDS } from "@/constants/time";
 import { Slider } from "@/components/ui/slider";
-import { formatTime } from "@/utils/formatTime";
-import { IconButton } from "@/components/ui/iconButton";
-import { useToggle } from "@/hooks/useToggle";
+import { formatTime } from "@/utils/format-time";
+import { IconButton } from "@/components/ui/icon-button";
+import { useToggle } from "@/hooks/use-toggle";
 
 export const MIN_TIME = 5;
 export const MAX_TIME = MINUTE_IN_SECONDS * 10;

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLanguage } from "@/contexts/languageProvider";
+import { useLanguage } from "@/contexts/language-provider";
 import { englishWords, portugueseWords, spanishWords } from "@/data/words";
 import { useEffect, useState } from "react";
 

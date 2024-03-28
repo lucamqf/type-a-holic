@@ -1,4 +1,4 @@
-import { enGameType, useGame } from "@/contexts/gameContext";
+import { enGameType, useGame } from "@/contexts/game-provider";
 import { GameSelector } from "@/components/selectors/game";
 import { LanguageSelector } from "@/components/selectors/language";
 import { ThemeSelector } from "@/components/selectors/theme";

@@ -1,7 +1,7 @@
 import { Modal } from "@/components/modal";
-import { ResultItem } from "@/components/results/resultItem";
-import { IconButton } from "@/components/ui/iconButton";
-import { useScreenshot } from "@/hooks/useScreenshot";
+import { ResultItem } from "@/components/results/result-item";
+import { IconButton } from "@/components/ui/icon-button";
+import { useScreenshot } from "@/hooks/use-screenshot";
 import { Copy, Download, RotateCcw } from "lucide-react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";

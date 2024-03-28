@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useWords } from "@/hooks/useWords";
+import { useWords } from "@/hooks/use-words";
 import { createContext, useContext, useState } from "react";
 
 export enum enGameType {

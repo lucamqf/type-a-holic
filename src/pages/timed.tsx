@@ -1,16 +1,16 @@
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
-import { useTimedGame } from "@/hooks/useTimedGame";
+import { useTimedGame } from "@/hooks/use-timed-game";
 
-import { formatTime } from "@/utils/formatTime";
+import { formatTime } from "@/utils/format-time";
 
 import { TimedResult } from "@/components/results/timed";
-import { IconButton } from "@/components/ui/iconButton";
+import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
-import { useGame } from "@/contexts/gameContext";
-import { useAutoScroll } from "@/hooks/useAutoScroll";
-import { useTyping } from "@/hooks/useTyping";
+import { useGame } from "@/contexts/game-provider";
+import { useAutoScroll } from "@/hooks/use-auto-scroll";
+import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
 import { MINUTE_IN_SECONDS } from "@/constants/time";
 import { PerfectionResult } from "@/components/results/perfection";

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useToggle } from "@/hooks/useToggle";
+import { useToggle } from "@/hooks/use-toggle";
 
 interface IUseInfiniteGame {
   onReset?(): void;

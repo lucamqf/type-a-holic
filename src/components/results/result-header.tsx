@@ -1,6 +1,6 @@
-import { ResultItem } from "@/components/results/resultItem";
+import { ResultItem } from "@/components/results/result-item";
 import { MINUTE_IN_SECONDS, SECOND_IN_MILLISECONDS } from "@/constants/time";
-import { useThrottle } from "@/hooks/useThrottle";
+import { useThrottle } from "@/hooks/use-throttle";
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
 

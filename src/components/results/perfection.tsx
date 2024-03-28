@@ -1,9 +1,9 @@
 import { Copy, Download, RotateCcw } from "lucide-react";
 import { Modal } from "@/components/modal";
-import { IconButton } from "@/components/ui/iconButton";
-import { ResultItem } from "@/components/results/resultItem";
+import { IconButton } from "@/components/ui/icon-button";
+import { ResultItem } from "@/components/results/result-item";
 import { useTranslation } from "react-i18next";
-import { useScreenshot } from "@/hooks/useScreenshot";
+import { useScreenshot } from "@/hooks/use-screenshot";
 import { useRef } from "react";
 
 interface IPerfectionResultProps {

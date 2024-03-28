@@ -1,5 +1,5 @@
 import { Header } from "@/components/header";
-import { enGameType, useGame } from "@/contexts/gameContext";
+import { enGameType, useGame } from "@/contexts/game-provider";
 import { Infinite } from "@/pages/infinite";
 import { Survival } from "@/pages/survival";
 import { Timed } from "@/pages/timed";

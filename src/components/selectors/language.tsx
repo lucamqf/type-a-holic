@@ -1,5 +1,5 @@
-import { useLanguage } from "@/contexts/languageProvider";
-import { IconButton } from "@/components/ui/iconButton";
+import { useLanguage } from "@/contexts/language-provider";
+import { IconButton } from "@/components/ui/icon-button";
 
 export function LanguageSelector() {
   const { setLanguage } = useLanguage();

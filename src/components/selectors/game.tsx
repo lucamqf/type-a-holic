@@ -1,7 +1,7 @@
-import { enGameType, useGame } from "@/contexts/gameContext";
+import { enGameType, useGame } from "@/contexts/game-provider";
 import { ChevronsUp, Clock, Component, Infinity } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { SelectButton } from "@/components/ui/selectButton";
+import { SelectButton } from "@/components/ui/select-button";
 
 export function GameSelector() {
   const { gameType, setGameType } = useGame();

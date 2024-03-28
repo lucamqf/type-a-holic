@@ -1,4 +1,4 @@
-import { useToggle } from "@/hooks/useToggle";
+import { useToggle } from "@/hooks/use-toggle";
 import domtoimage from "dom-to-image";
 import { RefObject } from "react";
 import { useToast } from "./use-toast";

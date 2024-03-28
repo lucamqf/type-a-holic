@@ -1,6 +1,6 @@
-import { GameProvider } from "@/contexts/gameContext";
-import { LanguageProvider } from "@/contexts/languageProvider";
-import { ThemeProvider } from "@/contexts/themeProvider";
+import { GameProvider } from "@/contexts/game-provider";
+import { LanguageProvider } from "@/contexts/language-provider";
+import { ThemeProvider } from "@/contexts/theme-provider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

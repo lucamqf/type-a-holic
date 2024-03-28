@@ -1,8 +1,8 @@
-import {
-  IEventElement,
-  IEventMap,
-} from "@/types/hooks/useEventListener.struct";
 import { useEffect, useRef } from "react";
+
+export type IEventMap = HTMLElementEventMap;
+
+export type IEventElement = (Window & typeof globalThis) | Element | null;
 
 export function useEventListener<K extends keyof IEventMap>(
   eventType: K,
