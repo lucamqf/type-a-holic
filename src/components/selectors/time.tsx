@@ -6,14 +6,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useTranslation } from "react-i18next";
-import { SelectButton } from "./ui/selectButton";
+import { SelectButton } from "@/components/ui/selectButton";
 import { Check, Pencil } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useState } from "react";
 import { MINUTE_IN_SECONDS } from "@/constants/time";
-import { Slider } from "./ui/slider";
+import { Slider } from "@/components/ui/slider";
 import { formatTime } from "@/utils/formatTime";
-import { IconButton } from "./ui/iconButton";
+import { IconButton } from "@/components/ui/iconButton";
 import { useToggle } from "@/hooks/useToggle";
 
 export const MIN_TIME = 5;

@@ -1,7 +1,7 @@
 import { RotateCcw } from "lucide-react";
-import { Modal } from "./modal";
-import { IconButton } from "./ui/iconButton";
-import { ResultItem } from "./ui/resultItem";
+import { Modal } from "@/components/modal";
+import { IconButton } from "@/components/ui/iconButton";
+import { ResultItem } from "@/components/results/resultItem";
 import { useTranslation } from "react-i18next";
 
 interface ITimedResultProps {

@@ -5,7 +5,7 @@ import { useTimedGame } from "@/hooks/useTimedGame";
 
 import { formatTime } from "@/utils/formatTime";
 
-import { TimedResult } from "@/components/timedResult";
+import { TimedResult } from "@/components/results/timed";
 import { IconButton } from "@/components/ui/iconButton";
 import { Words } from "@/components/words";
 import { useGame } from "@/contexts/gameContext";
@@ -13,7 +13,7 @@ import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useTyping } from "@/hooks/useTyping";
 import { cn } from "@/lib/utils";
 import { MINUTE_IN_SECONDS } from "@/constants/time";
-import { PerfectionResult } from "@/components/perfectionResult";
+import { PerfectionResult } from "@/components/results/perfection";
 
 interface ITimedProps {
   isPerfectionModeEnabled?: boolean;

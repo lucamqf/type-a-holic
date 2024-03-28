@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Dialog, DialogContent } from "./ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface IModalProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;

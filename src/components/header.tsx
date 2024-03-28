@@ -1,9 +1,9 @@
 import { enGameType, useGame } from "@/contexts/gameContext";
-import { GameSelector } from "./gameSelector";
-import { LanguageSelector } from "./languageSelector";
-import { ThemeSelector } from "./themeSelector";
-import { TimeSelector } from "./timeSelector";
-import { Separator } from "./ui/separator";
+import { GameSelector } from "@/components/selectors/game";
+import { LanguageSelector } from "@/components/selectors/language";
+import { ThemeSelector } from "@/components/selectors/theme";
+import { TimeSelector } from "@/components/selectors/time";
+import { Separator } from "@/components/ui/separator";
 
 export function Header() {
   const { gameType } = useGame();

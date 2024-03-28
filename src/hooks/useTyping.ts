@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useEventListener } from "./useEventListener";
+import { useEventListener } from "@/hooks/useEventListener";
 
 interface IUseTyping {
   words: string[];

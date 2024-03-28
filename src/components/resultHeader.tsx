@@ -1,5 +1,5 @@
 import { useThrottle } from "@/hooks/useThrottle";
-import { ResultItem } from "./ui/resultItem";
+import { ResultItem } from "@/components/results/resultItem";
 import { MINUTE_IN_SECONDS, SECOND_IN_MILLISECONDS } from "@/constants/time";
 import { useTranslation } from "react-i18next";
 

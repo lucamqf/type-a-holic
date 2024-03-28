@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 
 interface IIconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

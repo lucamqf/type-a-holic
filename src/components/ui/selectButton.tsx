@@ -1,5 +1,5 @@
 import { LucideIcon, LucideProps } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 import { HTMLAttributes } from "react";
 
 interface ISelectButtonProps extends HTMLAttributes<HTMLButtonElement> {

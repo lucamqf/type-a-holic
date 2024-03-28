@@ -1,7 +1,7 @@
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
-import { SurvivalResult } from "@/components/survivalResult";
+import { SurvivalResult } from "@/components/results/survival";
 import { IconButton } from "@/components/ui/iconButton";
 import { Words } from "@/components/words";
 import { useGame } from "@/contexts/gameContext";

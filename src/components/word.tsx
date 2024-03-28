@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Letter } from "./letter";
+import { Letter } from "@/components/letter";
 
 interface IWordProps {
   word: string;

@@ -1,7 +1,7 @@
 import { useTheme } from "@/contexts/themeProvider";
 import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
-import { IconButton } from "./ui/iconButton";
+import { IconButton } from "@/components/ui/iconButton";
 
 export function ThemeSelector() {
   const { theme, setTheme } = useTheme();

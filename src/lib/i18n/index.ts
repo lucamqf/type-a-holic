@@ -1,9 +1,9 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import portugueseTranslation from "./locales/pt";
-import englishTranslation from "./locales/en";
-import spanishTranslations from "./locales/es";
+import portugueseTranslation from "@/lib/i18n/locales/pt";
+import englishTranslation from "@/lib/i18n/locales/en";
+import spanishTranslations from "@/lib/i18n/locales/es";
 
 i18n
   .use(LanguageDetector)

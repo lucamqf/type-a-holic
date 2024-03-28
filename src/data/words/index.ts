@@ -1,5 +1,5 @@
-import englishWords from "./en";
-import portugueseWords from "./pt";
-import spanishWords from "./es";
+import englishWords from "@/data/words/en";
+import portugueseWords from "@/data/words/pt";
+import spanishWords from "@/data/words/es";
 
 export { englishWords, portugueseWords, spanishWords };

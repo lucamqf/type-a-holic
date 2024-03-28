@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Word } from "./word";
+import { Word } from "@/components/word";
 
 interface IWordsProps {
   words: string[];
