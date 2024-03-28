@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ResultHeader } from "@/components/results/result-header";
+import { Time } from "@/components/time";
 import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
 import { useGame } from "@/contexts/game-provider";
@@ -10,7 +11,6 @@ import { useScreenshot } from "@/hooks/use-screenshot";
 import { useToggle } from "@/hooks/use-toggle";
 import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
-import { formatTime } from "@/utils/format-time";
 import {
   CircleStop,
   Copy,
@@ -87,16 +87,14 @@ export function Infinite() {
 
   return (
     <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
         <div
           className={cn([
-            "flex items-end justify-between",
+            "flex h-16 items-center justify-between",
             hasGameStarted || isStopped ? "opacity-1" : "opacity-0",
           ])}
         >
-          <span className="select-none text-5xl text-text">
-            {formatTime(time)}
-          </span>
+          <Time time={time} />
 
           <ResultHeader
             ref={resultRef}

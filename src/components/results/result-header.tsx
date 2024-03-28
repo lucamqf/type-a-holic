@@ -53,10 +53,7 @@ export const ResultHeader = forwardRef<HTMLDivElement, IResultHeaderProps>(
     const itemClasses = "text-text font-normal";
 
     return (
-      <div
-        ref={ref}
-        className="flex h-[68px] gap-4 self-center text-neutral-300"
-      >
+      <div ref={ref} className="flex gap-4 text-neutral-300">
         <ResultItem.Item
           className={itemClasses}
           hierarchy="tertiary"

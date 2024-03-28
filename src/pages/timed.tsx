@@ -4,18 +4,16 @@ import { useEffect, useState } from "react";
 
 import { useTimedGame } from "@/hooks/use-timed-game";
 
-import { formatTime } from "@/utils/format-time";
-
+import { PerfectionResult } from "@/components/results/perfection";
 import { TimedResult } from "@/components/results/timed";
+import { Time } from "@/components/time";
 import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
+import { MINUTE_IN_SECONDS } from "@/constants/time";
 import { useGame } from "@/contexts/game-provider";
+import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useTyping } from "@/hooks/use-typing";
-import { cn } from "@/lib/utils";
-import { MINUTE_IN_SECONDS } from "@/constants/time";
-import { PerfectionResult } from "@/components/results/perfection";
-import { useLanguage } from "@/contexts/language-provider";
 
 interface ITimedProps {
   isPerfectionModeEnabled?: boolean;
@@ -86,15 +84,8 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 px-10">
-      <div className="flex flex-col gap-4">
-        <span
-          className={cn([
-            "h-[68px] select-none self-start text-5xl font-semibold text-text",
-            hasGameStarted ? "opacity-1" : "opacity-0",
-          ])}
-        >
-          {formatTime(time)}
-        </span>
+      <div className="flex flex-col gap-1">
+        <Time className="h-16" isVisible={hasGameStarted} time={time} />
 
         <Words
           ref={scrollRef}

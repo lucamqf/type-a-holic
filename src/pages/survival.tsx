@@ -86,10 +86,10 @@ export function Survival() {
 
   return (
     <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
         <span
           className={cn([
-            "h-[68px] select-none self-start text-5xl font-semibold text-text",
+            "h-16 select-none self-start text-5xl font-semibold text-text",
             hasGameStarted ? "opacity-1" : "opacity-0",
           ])}
         >

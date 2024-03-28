@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className="flex h-screen w-screen justify-center bg-background-100 pt-12">
-      <div className="flex max-w-[1000px] flex-col items-center gap-6">
+      <div className="flex max-w-[1000px] flex-col items-center gap-14">
         <Logo />
 
         <Header />
