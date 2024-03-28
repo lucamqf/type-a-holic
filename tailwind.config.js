@@ -86,8 +86,9 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ["Inter", "sans-serif"],
+      sans: ["Poppins", "sans-serif"],
       body: ["Iceberg", "Inter", "sans-serif"],
+      body2: ["VT323", "Inter", "sans-serif"],
     },
   },
   plugins: [require("tailwindcss-animate")],

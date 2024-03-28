@@ -50,16 +50,14 @@ export function Infinite() {
     resetWords,
     charactersCount,
     correctCharactersCount,
-    incorrectCharactersCount,
     wordCount,
+    incorrectCharactersCount,
   } = useTyping({
     words,
     onKeyPress: handleKeyPress,
     isBlocked: isPaused || isStopped,
   });
   const { scrollRef, registerWord } = useAutoScroll({ activeWord });
-
-  console.log({ wordCount });
 
   function handleKeyPress() {
     if (!hasGameStarted) {
