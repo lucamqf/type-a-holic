@@ -85,7 +85,7 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   const wordsPerMinute = wordCount / (selectedTime / MINUTE_IN_SECONDS);
 
   return (
-    <div className="flex w-full max-w-[1200px] flex-col items-center gap-20 px-10">
+    <div className="flex w-full flex-col items-center gap-10 px-10">
       <div className="flex flex-col gap-4">
         <span
           className={cn([

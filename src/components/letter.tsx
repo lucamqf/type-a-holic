@@ -31,7 +31,7 @@ function Letter({
     <span
       {...attributes}
       className={cn([
-        "relative select-none font-body text-3xl font-medium text-neutral-600",
+        "relative w-fit select-none font-body text-4xl font-medium text-neutral-600",
         getTextColor(status),
       ])}
     >

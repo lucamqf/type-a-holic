@@ -91,7 +91,7 @@ export function Infinite() {
         <div
           className={cn([
             "flex items-end justify-between",
-            hasGameStarted || isStopped ? "opacity-1" : "opacity-1",
+            hasGameStarted || isStopped ? "opacity-1" : "opacity-0",
           ])}
         >
           <span className="select-none text-5xl text-text">
