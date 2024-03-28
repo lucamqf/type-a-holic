@@ -40,9 +40,9 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
     activeLetter,
     charactersCount,
     correctCharactersCount,
-    incorrectCharactersCount,
     incorrectLetters,
     wordCount,
+    incorrectCharactersCount,
   } = useTyping({
     words,
     shouldValidateBeforeNextWord: isPerfectionModeEnabled,

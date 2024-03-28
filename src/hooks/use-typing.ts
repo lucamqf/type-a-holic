@@ -22,7 +22,6 @@ export function useTyping({
   const [wordCount, setWordCount] = useState(0);
   const [charactersCount, setCharactersCount] = useState(0);
   const [activeLetterInWord, setActiveLetterInWord] = useState(0);
-  const [incorrectCharactersCount, setIncorrectCharactersCount] = useState(0);
   const [incorrectLetters, setIncorrectLetters] = useState<[number, number][]>(
     []
   );
@@ -42,11 +41,13 @@ export function useTyping({
   function handleKeyPress(event: KeyboardEvent) {
     if (isBlocked) return;
 
+    const key = event.key;
+
     onKeyPress();
 
     const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
 
-    const isConfirmKey = event.key === "Enter" || event.key === " ";
+    const isConfirmKey = key === "Enter" || key === " ";
 
     if (isConfirmKey && shouldGoToNextWord) {
       if (shouldValidateBeforeNextWord && incorrectLetters.length > 0) return;
@@ -56,7 +57,19 @@ export function useTyping({
       return;
     }
 
-    validateCharacter(event.key);
+    if (shouldGoToNextWord) return;
+
+    const isCorrect = validateCharacter(key);
+
+    if (!isCorrect) {
+      setIncorrectLetters((prev) => [
+        ...prev,
+        [activeWord, activeLetterInWord],
+      ]);
+    }
+
+    setCharactersCount((prev) => prev + 1);
+    setActiveLetterInWord((prev) => prev + 1);
   }
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -92,7 +105,6 @@ export function useTyping({
     if (shouldRemoveIncorrectLetter) {
       incorrectLettersCopy.pop();
       setIncorrectLetters(incorrectLettersCopy);
-      setIncorrectCharactersCount((prev) => prev - 1);
     }
 
     if (isFirstLetter) {
@@ -106,22 +118,7 @@ export function useTyping({
   }
 
   function validateCharacter(letter: string) {
-    const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
-
-    if (shouldGoToNextWord) return;
-
-    const isIncorrect = words[activeWord][activeLetterInWord] !== letter;
-
-    if (isIncorrect) {
-      setIncorrectLetters((prev) => [
-        ...prev,
-        [activeWord, activeLetterInWord],
-      ]);
-      setIncorrectCharactersCount((prev) => prev + 1);
-    }
-
-    setCharactersCount((prev) => prev + 1);
-    setActiveLetterInWord((prev) => prev + 1);
+    return words[activeWord][activeLetterInWord] === letter;
   }
 
   function goToNextWord() {
@@ -140,13 +137,14 @@ export function useTyping({
     setActiveWord((prev) => prev + 1);
   }
 
-  const correctCharactersCount = charactersCount - incorrectCharactersCount;
+  const correctCharactersCount = charactersCount - incorrectLetters.length;
+  const incorrectCharactersCount = incorrectLetters.length;
   const isLastWord = activeWord >= words.length - 1;
 
   return {
     wordCount,
-    incorrectCharactersCount,
     correctCharactersCount,
+    incorrectCharactersCount,
     charactersCount,
     incorrectLetters,
     activeWord,
