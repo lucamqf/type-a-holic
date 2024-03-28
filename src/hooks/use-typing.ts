@@ -46,7 +46,9 @@ export function useTyping({
 
     const shouldGoToNextWord = activeLetterInWord === words[activeWord].length;
 
-    if (event.key === " " && shouldGoToNextWord) {
+    const isConfirmKey = event.key === "Enter" || event.key === " ";
+
+    if (isConfirmKey && shouldGoToNextWord) {
       if (shouldValidateBeforeNextWord) {
         const canGoToNextWord = incorrectLetters.length === 0;
 
