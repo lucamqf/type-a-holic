@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ResultHeader } from "@/components/results/result-header";
 import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
 import { useGame } from "@/contexts/game-provider";
+import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useInfiniteGame } from "@/hooks/use-infinite-game";
 import { useScreenshot } from "@/hooks/use-screenshot";
@@ -17,13 +19,14 @@ import {
   Play,
   RotateCcw,
 } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export function Infinite() {
   const resultRef = useRef<HTMLDivElement>(null);
 
   const [isStopped, toggleStop] = useToggle(false);
 
+  const { language } = useLanguage();
   const {
     copyScreenshotToClipboard,
     downloadScreenshot,
@@ -56,6 +59,8 @@ export function Infinite() {
   });
   const { scrollRef, registerWord } = useAutoScroll({ activeWord });
 
+  console.log({ wordCount });
+
   function handleKeyPress() {
     if (!hasGameStarted) {
       startGame();
@@ -73,6 +78,10 @@ export function Infinite() {
     refreshWords();
     toggleStop(false);
   }
+
+  useEffect(() => {
+    handleRestartGame();
+  }, [language]);
 
   const isGameRunning = hasGameStarted && !isStopped;
   const isInStandBy = !hasGameStarted && !isStopped;

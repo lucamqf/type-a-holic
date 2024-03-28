@@ -31,6 +31,8 @@ export const ResultHeader = forwardRef<HTMLDivElement, IResultHeaderProps>(
     );
 
     function getWordsPerMinute() {
+      if (wordsCount === 0) return 0;
+
       const wordsPerMinute = wordsCount / (time / MINUTE_IN_SECONDS);
       const formattedWordsPerMinute = Number.isNaN(wordsPerMinute)
         ? 0

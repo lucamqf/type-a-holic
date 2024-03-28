@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { RotateCcw } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { SurvivalResult } from "@/components/results/survival";
 import { IconButton } from "@/components/ui/icon-button";
@@ -10,9 +11,12 @@ import { useSurvival } from "@/hooks/use-survival";
 import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/utils/format-time";
+import { useLanguage } from "@/contexts/language-provider";
 
 export function Survival() {
   const [isGameFinished, setIsGameFinished] = useState(false);
+
+  const { language } = useLanguage();
   const { words, refreshWords } = useGame();
   const {
     activeWord,
@@ -73,6 +77,10 @@ export function Survival() {
     handleCleanGame();
     refreshWords();
   }
+
+  useEffect(() => {
+    handleRestartGame();
+  }, [language]);
 
   const accuracy = Math.floor((correctCharactersCount * 100) / charactersCount);
 

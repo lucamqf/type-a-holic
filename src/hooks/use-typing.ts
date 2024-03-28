@@ -49,11 +49,7 @@ export function useTyping({
     const isConfirmKey = event.key === "Enter" || event.key === " ";
 
     if (isConfirmKey && shouldGoToNextWord) {
-      if (shouldValidateBeforeNextWord) {
-        const canGoToNextWord = incorrectLetters.length === 0;
-
-        if (!canGoToNextWord) return;
-      }
+      if (shouldValidateBeforeNextWord && incorrectLetters.length > 0) return;
 
       goToNextWord();
 

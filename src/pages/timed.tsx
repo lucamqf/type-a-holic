@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { RotateCcw } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTimedGame } from "@/hooks/use-timed-game";
 
@@ -14,6 +15,7 @@ import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
 import { MINUTE_IN_SECONDS } from "@/constants/time";
 import { PerfectionResult } from "@/components/results/perfection";
+import { useLanguage } from "@/contexts/language-provider";
 
 interface ITimedProps {
   isPerfectionModeEnabled?: boolean;
@@ -21,6 +23,7 @@ interface ITimedProps {
 
 export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const { language } = useLanguage();
   const {
     words,
     refreshWords,
@@ -74,6 +77,10 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
     restartGame();
     handleCleanGame();
   }
+
+  useEffect(() => {
+    handleRestartGame();
+  }, [language]);
 
   const wordsPerMinute = wordCount / (selectedTime / MINUTE_IN_SECONDS);
 
