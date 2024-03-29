@@ -31,7 +31,7 @@ function Letter({
     <span
       {...attributes}
       className={cn([
-        "relative w-fit select-none font-body text-4xl font-medium text-neutral-600",
+        "relative w-[50px] select-none overflow-hidden whitespace-nowrap font-body text-4xl font-medium text-neutral-600",
         getTextColor(status),
       ])}
     >
@@ -39,7 +39,7 @@ function Letter({
       {cursorPosition !== "none" && (
         <span
           className={cn([
-            "absolute h-full w-[2px] animate-pulse  rounded-md bg-text duration-700",
+            "absolute h-full w-[2px] animate-pulse rounded-md bg-text duration-700",
             cursorPosition === "left" && "left-0",
             cursorPosition === "right" && "right-0",
           ])}

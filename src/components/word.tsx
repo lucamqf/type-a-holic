@@ -72,7 +72,10 @@ export function Word({
   }, [onLayout, word, customWordRef]);
 
   return (
-    <div ref={customWordRef ?? wordRef}>
+    <div
+      ref={customWordRef ?? wordRef}
+      className="w-fit flex-nowrap overflow-hidden whitespace-nowrap"
+    >
       {letters.map((letter, letterIndex) => {
         const isPastLetter = activeLetter > letterIndex && isActive;
 
