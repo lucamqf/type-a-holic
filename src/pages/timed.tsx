@@ -14,6 +14,7 @@ import { useGame } from "@/contexts/game-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useTyping } from "@/hooks/use-typing";
+import { WORDS_GENERATION_GAP } from "@/constants/words-generation-gap";
 
 interface ITimedProps {
   isPerfectionModeEnabled?: boolean;
@@ -21,10 +22,12 @@ interface ITimedProps {
 
 export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   const [isGameFinished, setIsGameFinished] = useState(false);
+
   const { language } = useLanguage();
   const {
     words,
     refreshWords,
+    generateMoreWords,
     time: selectedTime,
     selectedTimeOption,
   } = useGame();
@@ -79,6 +82,14 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   useEffect(() => {
     handleRestartGame();
   }, [language]);
+
+  useEffect(() => {
+    const shouldRegenerate = words.length - WORDS_GENERATION_GAP >= activeWord;
+
+    if (shouldRegenerate) {
+      generateMoreWords();
+    }
+  }, [activeWord]);
 
   const wordsPerMinute = wordCount / (selectedTime / MINUTE_IN_SECONDS);
 

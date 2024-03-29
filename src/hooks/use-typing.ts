@@ -5,6 +5,7 @@ interface IUseTyping {
   words: string[];
   isBlocked?: boolean;
   shouldValidateBeforeNextWord?: boolean;
+  allowBackspace?: boolean;
   onKeyPress?(): void;
   onKeyDown?(): void;
   onLastWord?(): void;
@@ -14,6 +15,7 @@ export function useTyping({
   words,
   isBlocked = false,
   shouldValidateBeforeNextWord = false,
+  allowBackspace = true,
   onKeyPress = () => undefined,
   onKeyDown = () => undefined,
   onLastWord = () => undefined,
@@ -76,7 +78,7 @@ export function useTyping({
 
     onKeyDown();
 
-    if (event.key === "Backspace") {
+    if (allowBackspace && event.key === "Backspace") {
       handleBackspace();
     }
   }

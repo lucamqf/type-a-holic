@@ -12,12 +12,13 @@ import { useTyping } from "@/hooks/use-typing";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/utils/format-time";
 import { useLanguage } from "@/contexts/language-provider";
+import { WORDS_GENERATION_GAP } from "@/constants/words-generation-gap";
 
 export function Survival() {
   const [isGameFinished, setIsGameFinished] = useState(false);
 
   const { language } = useLanguage();
-  const { words, refreshWords } = useGame();
+  const { words, refreshWords, generateMoreWords } = useGame();
   const {
     activeWord,
     resetWords,
@@ -29,6 +30,7 @@ export function Survival() {
   } = useTyping({
     words,
     isBlocked: isGameFinished,
+    allowBackspace: false,
     onKeyPress: handleStartGame,
     onLastWord: refreshWords,
   });
@@ -81,6 +83,14 @@ export function Survival() {
   useEffect(() => {
     handleRestartGame();
   }, [language]);
+
+  useEffect(() => {
+    const shouldRegenerate = words.length - WORDS_GENERATION_GAP >= activeWord;
+
+    if (shouldRegenerate) {
+      generateMoreWords();
+    }
+  }, [activeWord]);
 
   const accuracy = Math.floor((correctCharactersCount * 100) / charactersCount);
 

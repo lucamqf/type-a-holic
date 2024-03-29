@@ -3,20 +3,7 @@ import { useLanguage } from "@/contexts/language-provider";
 import { englishWords, portugueseWords, spanishWords } from "@/data/words";
 import { useEffect, useState } from "react";
 
-interface IRefreshOptions {
-  shouldAutoGenerate?: boolean;
-  currentWord?: number;
-  generationGap?: number;
-}
-
-export function useWords(
-  amountOfWords: number = 0,
-  {
-    shouldAutoGenerate = false,
-    currentWord,
-    generationGap = amountOfWords,
-  }: IRefreshOptions = {}
-) {
+export function useWords(amountOfWords: number = 0) {
   const { language } = useLanguage();
   const [words, setWords] = useState<string[]>([]);
 
@@ -53,15 +40,6 @@ export function useWords(
   useEffect(() => {
     refreshWords();
   }, [language]);
-
-  useEffect(() => {
-    if (
-      shouldAutoGenerate &&
-      currentWord === words.length - 1 - generationGap
-    ) {
-      refreshWords();
-    }
-  }, [currentWord, generationGap, shouldAutoGenerate, words]);
 
   return {
     words,

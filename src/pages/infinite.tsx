@@ -3,6 +3,7 @@ import { ResultHeader } from "@/components/results/result-header";
 import { Time } from "@/components/time";
 import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
+import { WORDS_GENERATION_GAP } from "@/constants/words-generation-gap";
 import { useGame } from "@/contexts/game-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
@@ -33,7 +34,7 @@ export function Infinite() {
     isCopyingScreenshotToClipboard,
     isDownloadingScreenshot,
   } = useScreenshot(resultRef);
-  const { words, refreshWords } = useGame();
+  const { words, refreshWords, generateMoreWords } = useGame();
   const {
     time,
     startGame,
@@ -80,6 +81,14 @@ export function Infinite() {
   useEffect(() => {
     handleRestartGame();
   }, [language]);
+
+  useEffect(() => {
+    const shouldRegenerate = words.length - WORDS_GENERATION_GAP >= activeWord;
+
+    if (shouldRegenerate) {
+      generateMoreWords();
+    }
+  }, [activeWord]);
 
   const isGameRunning = hasGameStarted && !isStopped;
   const isInStandBy = !hasGameStarted && !isStopped;

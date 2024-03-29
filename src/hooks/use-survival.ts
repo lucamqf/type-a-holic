@@ -16,7 +16,7 @@ export function useSurvival(
   const [hasGameStarted, setHasGameStarted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const tickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const currentTick = useRef(SECOND_IN_MILLISECONDS * 15);
+  const currentTick = useRef(SECOND_IN_MILLISECONDS * 20);
 
   const startGame = () => {
     setHasGameStarted(true);
