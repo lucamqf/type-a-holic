@@ -1,30 +1,47 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Typeaholic
+Typeaholic is a web-based typing game built with React, Vite, and Shadcn to help you improve your typing speed and accuracy. Inspired by popular tools like Monkeytype and 10FastFingers, it offers various game modes to cater to different learning styles.
 
-Currently, two official plugins are available:
+## Features
+- Four game modes:
+    - **Timed**: Race against the clock and type as many words as possible within the chosen time limit.
+    - **Infinite**: Practice typing endlessly with real-time WPM (Words Per Minute) calculation.
+    - **Perfection**: Similar to Timed, but you can't move on to the next word until it's typed flawlessly.
+    - **Survival**: A fast-paced mode where the first line disappears every 20 seconds, increasing in speed with each line lost. Survive for as long as you can!
+- Internationalization: Choose between Portuguese, English and Spanish.
+- Theme: Light and Dark mode
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Play Typeaholic Now!
+Head over to [typeaholic.com.br](typeaholic.com.br) and start improving your typing skills!
 
-## Expanding the ESLint configuration
+## Getting Started
+#### Clone the repository:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
+```
+git clone https://github.com/your-username/typeaholic.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+#### Install dependencies:
+```
+pnpm install
+```
+
+#### Build the project:
+```
+pnpm build
+```
+
+#### Run the development server:
+```
+pnpm dev
+```
+
+This will start the server at http://localhost:5173/.
+
+## Contributing
+I welcome contributions to Typeaholic! Feel free to fork the repository, make changes, and submit a pull request.
+
+## Technologies Used
+- React: https://react.dev/
+- Vite: https://vitejs.dev/guide/
+- Shadcn: https://github.com/shadcn-ui
