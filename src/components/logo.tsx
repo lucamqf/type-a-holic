@@ -1,9 +1,9 @@
+import { useTheme } from "@/contexts/theme-provider";
+
 export function Logo() {
-  return (
-    <img
-      className="w-60"
-      src="logo.svg"
-      onDragStart={(event) => event.preventDefault()}
-    />
-  );
+  const { theme } = useTheme();
+
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
+
+  return <img className="w-52" src={logo} />;
 }
