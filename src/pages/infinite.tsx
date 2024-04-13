@@ -36,7 +36,6 @@ export function Infinite() {
     isCopyingScreenshotToClipboard,
     isDownloadingScreenshot,
   } = useScreenshot(resultRef);
-
   const {
     time,
     startGame,
