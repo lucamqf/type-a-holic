@@ -15,7 +15,7 @@ export function Time({
   return (
     <span
       className={cn([
-        "select-none text-5xl font-semibold text-text",
+        "text-5xl font-semibold text-text",
         isVisible ? "opacity-1" : "opacity-0",
         className,
       ])}

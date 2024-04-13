@@ -1,1 +1,0 @@
-export const WORDS_GENERATION_GAP = 100;

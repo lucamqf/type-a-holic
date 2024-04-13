@@ -3,14 +3,13 @@ import { ResultHeader } from "@/components/results/result-header";
 import { Time } from "@/components/time";
 import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
-import { WORDS_GENERATION_GAP } from "@/constants/words-generation-gap";
-import { useGame } from "@/contexts/game-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useInfiniteGame } from "@/hooks/use-infinite-game";
 import { useScreenshot } from "@/hooks/use-screenshot";
 import { useToggle } from "@/hooks/use-toggle";
 import { useTyping } from "@/hooks/use-typing";
+import { useWords } from "@/hooks/use-words";
 import { cn } from "@/lib/utils";
 import {
   CircleStop,
@@ -20,10 +19,13 @@ import {
   Play,
   RotateCcw,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function Infinite() {
   const resultRef = useRef<HTMLDivElement>(null);
+
+  // Duplicated state to prevent "Block-scoped variable used before its declaration"
+  const [words, setWords] = useState<string[]>([]);
 
   const [isStopped, toggleStop] = useToggle(false);
 
@@ -34,7 +36,6 @@ export function Infinite() {
     isCopyingScreenshotToClipboard,
     isDownloadingScreenshot,
   } = useScreenshot(resultRef);
-  const { words, refreshWords, generateMoreWords } = useGame();
   const {
     time,
     startGame,
@@ -57,6 +58,10 @@ export function Infinite() {
     words,
     onKeyPress: handleKeyPress,
     isBlocked: isPaused || isStopped,
+  });
+  const { words: wordsFromHook, refreshWords } = useWords({
+    amountOfWords: 150,
+    currentWord: activeWord,
   });
   const { scrollRef, registerWord } = useAutoScroll({ activeWord });
 
@@ -83,12 +88,8 @@ export function Infinite() {
   }, [language]);
 
   useEffect(() => {
-    const shouldRegenerate = words.length - WORDS_GENERATION_GAP >= activeWord;
-
-    if (shouldRegenerate) {
-      generateMoreWords();
-    }
-  }, [activeWord]);
+    setWords(wordsFromHook);
+  }, [wordsFromHook]);
 
   const isGameRunning = hasGameStarted && !isStopped;
   const isInStandBy = !hasGameStarted && !isStopped;
@@ -121,7 +122,7 @@ export function Infinite() {
           activeWord={activeWord}
           incorrectLetters={incorrectLetters}
           isInStandBy={!hasGameStarted || isPaused || isStopped}
-          words={words}
+          words={wordsFromHook}
           onRegisterWord={registerWord}
         />
       </div>

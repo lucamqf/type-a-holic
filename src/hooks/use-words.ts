@@ -3,7 +3,15 @@ import { useLanguage } from "@/contexts/language-provider";
 import { englishWords, portugueseWords, spanishWords } from "@/data/words";
 import { useEffect, useState } from "react";
 
-export function useWords(amountOfWords: number = 0) {
+interface IUseWordsProps {
+  amountOfWords?: number;
+  currentWord?: number;
+}
+
+export function useWords({
+  amountOfWords = 0,
+  currentWord = 0,
+}: IUseWordsProps = {}) {
   const { language } = useLanguage();
   const [words, setWords] = useState<string[]>([]);
 
@@ -40,6 +48,14 @@ export function useWords(amountOfWords: number = 0) {
   useEffect(() => {
     refreshWords();
   }, [language]);
+
+  useEffect(() => {
+    const generationGap = amountOfWords / 2;
+
+    if (currentWord === words.length - 1 - generationGap) {
+      generateMoreWords();
+    }
+  }, [currentWord, amountOfWords, words]);
 
   return {
     words,

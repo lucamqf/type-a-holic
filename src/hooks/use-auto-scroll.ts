@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface IUseAutoScroll {
   activeWord: number;
@@ -21,16 +21,19 @@ export function useAutoScroll<T extends HTMLDivElement>({
     {}
   );
 
-  function handleRegisterWord(index: number, verticalPosition: number) {
-    const scrollPosition = scrollRef.current?.offsetTop ?? 0;
-    const truePosition = verticalPosition - scrollPosition;
+  const handleRegisterWord = useCallback(
+    (index: number, verticalPosition: number) => {
+      const scrollPosition = scrollRef.current?.offsetTop ?? 0;
+      const truePosition = verticalPosition - scrollPosition;
 
-    if (wordsPosition[index] === truePosition) return;
+      if (wordsPosition[index] === truePosition) return;
 
-    const position = Number.isNaN(truePosition) ? 0 : truePosition;
+      const position = Number.isNaN(truePosition) ? 0 : truePosition;
 
-    setWordsPosition((prev) => ({ ...prev, [index]: position }));
-  }
+      setWordsPosition((prev) => ({ ...prev, [index]: position }));
+    },
+    [wordsPosition]
+  );
 
   function resetScroll() {
     scroll(0);

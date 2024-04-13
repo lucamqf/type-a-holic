@@ -52,18 +52,13 @@ function ResultItem({
             onMouseOut={() => toggleTooltipVisibility(false)}
             onMouseOver={() => toggleTooltipVisibility(true)}
           >
-            <p
-              className={cn([
-                "select-none font-medium text-text",
-                titleSize[hierarchy],
-              ])}
-            >
+            <p className={cn(["font-medium text-text", titleSize[hierarchy]])}>
               {title}
             </p>
             <p
               {...attributes}
               className={cn([
-                "select-none font-semibold text-accent",
+                "font-semibold text-accent",
                 valueSize[hierarchy],
                 attributes.className,
               ])}

@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useCallback } from "react";
 import { Word } from "@/components/word";
 
 interface IWordsProps {
@@ -24,13 +24,14 @@ export const Words = forwardRef<HTMLDivElement, IWordsProps>(
     },
     ref
   ) => {
-    function handleRegisterWord(index: number) {
-      return (verticalPosition: number) => {
+    const handleRegisterWord = useCallback(
+      (wordPosition: number, verticalPosition: number) => {
         if (onRegisterWord) {
-          onRegisterWord(index, verticalPosition);
+          onRegisterWord(wordPosition, verticalPosition);
         }
-      };
-    }
+      },
+      [onRegisterWord]
+    );
 
     return (
       <div
@@ -51,10 +52,11 @@ export const Words = forwardRef<HTMLDivElement, IWordsProps>(
               isInStandBy={isInStandBy}
               shouldBeHighlighted={isPastWord}
               word={word}
+              wordPosition={wordIndex}
               customWordRef={
                 wordIndex === activeWord ? activeWordRef : undefined
               }
-              onLayout={handleRegisterWord(wordIndex)}
+              onLayout={handleRegisterWord}
             />
           );
         })}

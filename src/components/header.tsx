@@ -12,7 +12,7 @@ export function Header() {
     gameType === enGameType.TIMED || gameType === enGameType.PERFECTION;
 
   return (
-    <div className="flex min-h-20 w-full flex-col px-10 text-neutral-300">
+    <div className="flex min-h-20 w-screen max-w-[1000px] flex-col px-10 text-neutral-300">
       <div className="flex min-h-10 w-full items-center justify-between">
         <LanguageSelector />
 
