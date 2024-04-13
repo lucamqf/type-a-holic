@@ -29,6 +29,7 @@ export function Survival() {
     wordCount,
   } = useTyping({
     words,
+    allowBackspace: false,
     isBlocked: isGameFinished,
     onKeyPress: handleStartGame,
   });

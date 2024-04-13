@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import { Letter } from "@/components/letter";
+import { memo, useEffect, useRef } from "react";
 
 interface IWordProps {
   word: string;
@@ -7,15 +7,17 @@ interface IWordProps {
   isActive: boolean;
   incorrectLetters: [number, number][];
   isInStandBy: boolean;
+  wordPosition: number;
   currentWordIndex: number;
   shouldBeHighlighted: boolean;
   customWordRef?: React.RefObject<HTMLDivElement>;
-  onLayout?(verticalPosition: number): void;
+  onLayout?(wordPosition: number, verticalPosition: number): void;
 }
 
-export function Word({
+function Word({
   word,
   activeLetter,
+  wordPosition,
   isActive,
   incorrectLetters,
   isInStandBy,
@@ -67,9 +69,9 @@ export function Word({
     const ref = customWordRef ?? wordRef;
 
     if (onLayout && ref.current) {
-      onLayout(ref.current.offsetTop);
+      onLayout(wordPosition, ref.current.offsetTop);
     }
-  }, [onLayout, word, customWordRef]);
+  }, [onLayout, word, wordPosition, customWordRef]);
 
   return (
     <div
@@ -99,3 +101,7 @@ export function Word({
     </div>
   );
 }
+
+const MemoizedWord = memo(Word);
+
+export { MemoizedWord as Word };
