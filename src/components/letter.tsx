@@ -31,7 +31,7 @@ function Letter({
     <span
       {...attributes}
       className={cn([
-        "relative w-[50px] select-none overflow-hidden whitespace-nowrap font-body text-4xl font-medium text-neutral-600",
+        "relative w-[50px] overflow-hidden whitespace-nowrap font-body text-4xl font-medium text-neutral-600",
         getTextColor(status),
       ])}
     >

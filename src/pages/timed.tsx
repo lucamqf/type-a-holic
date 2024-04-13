@@ -14,6 +14,7 @@ import { useGame } from "@/contexts/game-provider";
 import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useTyping } from "@/hooks/use-typing";
+import { useWords } from "@/hooks/use-words";
 
 interface ITimedProps {
   isPerfectionModeEnabled?: boolean;
@@ -21,13 +22,12 @@ interface ITimedProps {
 
 export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   const [isGameFinished, setIsGameFinished] = useState(false);
+
+  // Duplicated state to prevent "Block-scoped variable used before its declaration"
+  const [words, setWords] = useState<string[]>([]);
+
   const { language } = useLanguage();
-  const {
-    words,
-    refreshWords,
-    time: selectedTime,
-    selectedTimeOption,
-  } = useGame();
+  const { selectedTime: selectedTime, selectedTimeOption } = useGame();
 
   const isGameBlocked =
     isGameFinished || (selectedTimeOption === "custom" && selectedTime === 0);
@@ -46,7 +46,10 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
     shouldValidateBeforeNextWord: isPerfectionModeEnabled,
     isBlocked: isGameBlocked,
     onKeyPress: handleStartGame,
-    onLastWord: refreshWords,
+  });
+  const { words: wordsFromHook, refreshWords } = useWords({
+    amountOfWords: 150,
+    currentWord: activeWord,
   });
 
   const { time, startGame, restartGame, hasGameStarted } = useTimedGame({
@@ -79,6 +82,10 @@ export function Timed({ isPerfectionModeEnabled = false }: ITimedProps) {
   useEffect(() => {
     handleRestartGame();
   }, [language]);
+
+  useEffect(() => {
+    setWords(wordsFromHook);
+  }, [wordsFromHook]);
 
   const wordsPerMinute = wordCount / (selectedTime / MINUTE_IN_SECONDS);
 

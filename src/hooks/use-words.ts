@@ -3,20 +3,15 @@ import { useLanguage } from "@/contexts/language-provider";
 import { englishWords, portugueseWords, spanishWords } from "@/data/words";
 import { useEffect, useState } from "react";
 
-interface IRefreshOptions {
-  shouldAutoGenerate?: boolean;
+interface IUseWordsProps {
+  amountOfWords?: number;
   currentWord?: number;
-  generationGap?: number;
 }
 
-export function useWords(
-  amountOfWords: number = 0,
-  {
-    shouldAutoGenerate = false,
-    currentWord,
-    generationGap = amountOfWords,
-  }: IRefreshOptions = {}
-) {
+export function useWords({
+  amountOfWords = 0,
+  currentWord = 0,
+}: IUseWordsProps = {}) {
   const { language } = useLanguage();
   const [words, setWords] = useState<string[]>([]);
 
@@ -55,13 +50,12 @@ export function useWords(
   }, [language]);
 
   useEffect(() => {
-    if (
-      shouldAutoGenerate &&
-      currentWord === words.length - 1 - generationGap
-    ) {
-      refreshWords();
+    const generationGap = amountOfWords / 2;
+
+    if (currentWord === words.length - 1 - generationGap) {
+      generateMoreWords();
     }
-  }, [currentWord, generationGap, shouldAutoGenerate, words]);
+  }, [currentWord, amountOfWords, words]);
 
   return {
     words,

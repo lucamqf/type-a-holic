@@ -5,19 +5,20 @@ import { useEffect, useState } from "react";
 import { SurvivalResult } from "@/components/results/survival";
 import { IconButton } from "@/components/ui/icon-button";
 import { Words } from "@/components/words";
-import { useGame } from "@/contexts/game-provider";
+import { useLanguage } from "@/contexts/language-provider";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useSurvival } from "@/hooks/use-survival";
 import { useTyping } from "@/hooks/use-typing";
+import { useWords } from "@/hooks/use-words";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/utils/format-time";
-import { useLanguage } from "@/contexts/language-provider";
 
 export function Survival() {
   const [isGameFinished, setIsGameFinished] = useState(false);
+  // Duplicated state to prevent "Block-scoped variable used before its declaration"
+  const [words, setWords] = useState<string[]>([]);
 
   const { language } = useLanguage();
-  const { words, refreshWords } = useGame();
   const {
     activeWord,
     resetWords,
@@ -30,7 +31,10 @@ export function Survival() {
     words,
     isBlocked: isGameFinished,
     onKeyPress: handleStartGame,
-    onLastWord: refreshWords,
+  });
+  const { words: wordsFromHook, refreshWords } = useWords({
+    amountOfWords: 150,
+    currentWord: activeWord,
   });
   const {
     scrollRef,
@@ -82,6 +86,10 @@ export function Survival() {
     handleRestartGame();
   }, [language]);
 
+  useEffect(() => {
+    setWords(wordsFromHook);
+  }, [wordsFromHook]);
+
   const accuracy = Math.floor((correctCharactersCount * 100) / charactersCount);
 
   return (
@@ -89,7 +97,7 @@ export function Survival() {
       <div className="flex flex-col gap-1">
         <span
           className={cn([
-            "h-16 select-none self-start text-5xl font-semibold text-text",
+            "h-16 self-start text-5xl font-semibold text-text",
             hasGameStarted ? "opacity-1" : "opacity-0",
           ])}
         >

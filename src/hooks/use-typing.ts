@@ -7,7 +7,6 @@ interface IUseTyping {
   shouldValidateBeforeNextWord?: boolean;
   onKeyPress?(): void;
   onKeyDown?(): void;
-  onLastWord?(): void;
 }
 
 export function useTyping({
@@ -16,7 +15,6 @@ export function useTyping({
   shouldValidateBeforeNextWord = false,
   onKeyPress = () => undefined,
   onKeyDown = () => undefined,
-  onLastWord = () => undefined,
 }: IUseTyping) {
   const [activeWord, setActiveWord] = useState(0);
   const [wordCount, setWordCount] = useState(0);
@@ -122,15 +120,6 @@ export function useTyping({
 
   function goToNextWord() {
     setActiveLetterInWord(0);
-
-    const isLastWord = activeWord === words.length - 1;
-
-    if (isLastWord) {
-      setActiveWord(0);
-      setIncorrectLetters([]);
-      onLastWord();
-      return;
-    }
 
     setWordCount((prev) => prev + 1);
     setActiveWord((prev) => prev + 1);
