@@ -5,25 +5,30 @@ import { Survival } from "@/pages/survival";
 import { Timed } from "@/pages/timed";
 import { Toaster } from "@/components/ui/toaster";
 import { Logo } from "./components/logo";
+import { Footer } from "./components/footer";
 
 function App() {
   const { gameType } = useGame();
 
   return (
-    <div className="flex h-screen w-screen justify-center bg-background-100 pt-12">
-      <div className="flex max-w-[1000px] flex-col items-center gap-14">
-        <Logo />
+    <div className="flex items-center h-screen w-screen justify-center bg-background-100 pt-12">
+      <div className="flex h-full flex-col items-center">
+        <div className="flex flex-col w-full max-w-[1000px] h-full items-center gap-14">
+          <Logo />
 
-        <Header />
+          <Header />
 
-        <div className="h-full w-full">
-          {gameType === enGameType.TIMED && <Timed />}
-          {gameType === enGameType.INFINITE && <Infinite />}
-          {gameType === enGameType.PERFECTION && (
-            <Timed isPerfectionModeEnabled />
-          )}
-          {gameType === enGameType.SURVIVAL && <Survival />}
+          <div className="h-full w-full">
+            {gameType === enGameType.TIMED && <Timed />}
+            {gameType === enGameType.INFINITE && <Infinite />}
+            {gameType === enGameType.PERFECTION && (
+              <Timed isPerfectionModeEnabled />
+            )}
+            {gameType === enGameType.SURVIVAL && <Survival />}
+          </div>
         </div>
+
+        <Footer />
 
         <Toaster />
       </div>
